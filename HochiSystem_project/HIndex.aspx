@@ -385,8 +385,9 @@
         /* 浮動按鈕：不受父層版型影響 */
         .quick-lead-fab {
             position: fixed;
-            right: 16px;
-            bottom: 20px;
+            left: 16px;
+            right: auto;
+            bottom: calc(20px + env(safe-area-inset-bottom));
             width: 54px;
             height: 54px;
             border-radius: 50%;
@@ -397,7 +398,7 @@
             background: #28a745; /* 綠色 */
             color: #fff !important; /* 白字 */
             box-shadow: 0 6px 16px rgba(0,0,0,.25);
-            z-index: 1050; /* 蓋過大多數元件 */
+            z-index: 12000; /* 蓋過大多數元件 */
         }
 
             .quick-lead-fab:hover {
@@ -634,6 +635,35 @@
             }
         }
     </script>
+    <script>
+        (function () {
+            var btn = document.querySelector('.quick-lead-fab');
+            if (!btn) return;
 
+            // 你的 back-to-top 常見幾種 class/id，抓得到一個就用
+            var btt = document.querySelector('#back-to-top, .back-to-top, .goTop, a.goTop');
+
+            function place() {
+                var base = 20;            // FAB 與底部基本距離
+                var extra = 0;            // 為了避開 back-to-top 往上加的距離
+                var z = 12000;            // FAB 基本層級
+
+                if (btt && btt.offsetParent !== null) { // 可見
+                    var styles = getComputedStyle(btt);
+                    var bh = (btt.offsetHeight || 56);   // back-to-top 高度
+                    var bb = parseInt(styles.bottom || '0', 10); // 與底部距離
+                    extra = bh + bb + 12;               // 再加點間距
+                    var bz = parseInt(styles.zIndex || '0', 10);
+                    z = Math.max(z, bz + 1);            // 確保在它之上
+                }
+
+                btn.style.bottom = `calc(${base}px + ${extra}px + env(safe-area-inset-bottom))`;
+                btn.style.zIndex = z;
+            }
+
+            place();
+            window.addEventListener('resize', place);
+        })();
+    </script>
 </asp:Content>
 
