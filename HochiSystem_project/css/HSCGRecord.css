@@ -1,0 +1,172 @@
+﻿#twopart .middlepart {
+	width: 90%;
+}
+
+.table-scgrecord {
+	transition: all 0.3s ease;
+}
+
+.table td {
+	padding: 2px;
+}
+
+#twopart .leftpart {
+	left: 8px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+	line-height: 2.8;
+}
+
+.recordcontent .modal-header {
+	background: #fff;
+	color: #676A6C;
+	padding: 15px 0;
+}
+
+.recordcontent .modal-header {
+	background: #fff;
+}
+
+	.recordcontent .modal-header .close {
+		color: #000 !important;
+		top: 20% !important;
+	}
+
+
+/*.datepicker {
+            position: absolute !important;
+            z-index: 2 !important;*/ /* 確保浮在上層 */
+/*}
+
+        .dateAA {
+            position: relative;
+        }*/
+
+
+.tooltip-inner {
+	font-size: 12px;
+}
+
+.booking-table th {
+	padding: .2rem 0.3rem !important;
+	font-size: 0.8rem;
+}
+
+.booking-table td {
+	font-size: 0.8rem;
+}
+
+#OrderInfo .modal-title {
+	font-size: 1rem;
+}
+
+.icon {
+	display: inline-block;
+	background: #e0a1db;
+	border-radius: 5px;
+	color: #fff;
+	padding-left: 5px;
+	width: 50%;
+}
+
+.icon_name {
+	width: 80%;
+}
+
+.ul_keyword li:nth-child(7) .icon {
+	width: 25%;
+}
+
+.ul_week {
+	justify-content: end;
+}
+
+@media (max-width: 768px) {
+	.ul_week {
+		justify-content: space-between !important;
+	}
+
+	.btn {
+		margin-bottom: 5px;
+		padding: .4rem .4rem;
+	}
+
+	.growthsearch .row {
+		padding-right: 0;
+		padding-left: 0;
+	}
+
+	.iconexample .ul_keyword li.scforum {
+		width: auto !important;
+	}
+
+	.ul_keyword {
+		flex-wrap: wrap !important;
+	}
+
+	.iconexample .ul_keyword li:nth-child(7) {
+		width: 38% !important;
+	}
+
+	.iconexample .ul_keyword li.gicon {
+		width: 13% !important;
+	}
+
+	.sbtn .form-group {
+		margin-bottom: 0 !important;
+	}
+}
+
+
+.media-body, .media-body p {
+	font-size: 14px;
+	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #676a6c;
+}
+
+.media-heading {
+	font-size: 15px;
+	color: #0c79dd;
+}
+
+.response-heading {
+	font-size: 14px;
+	color: #3f3f3f;
+	margin-bottom:0;
+}
+
+.response-media{
+	margin-bottom:10px;
+}
+
+.response-body {
+	padding: 5px 15px;
+	background-color: #f1f1f1;
+	border-radius: 10px;
+}
+
+.btn-primary.btn-outline {
+	color: #1ab394;
+	font-weight: 400;
+	border-color: #1ab394;
+	background-color: #fff;
+	font-size: 13px;
+	padding: 3px 6px;
+}
+
+
+#myModal h6 {
+	text-align: center;
+	width: 100%;
+	margin-bottom: 0;
+}
+
+#myModal .modal-header{
+	display:contents;
+	padding-top:10px;
+}
+
+#myModal .modal-header h4 {
+	text-align:center;
+}

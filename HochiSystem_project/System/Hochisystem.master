@@ -1,0 +1,450 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Hochisystem.master.cs" Inherits="Hochisystem" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta http-equiv="Content-Language" content="zh-tw">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <meta name="keywords" content="">
+    <meta name="description" content="(03) 339 0276 桃園市桃園區中山東路29號13樓 ​13F., No.29, Zhongshan E. Rd., Taoyuan Dist., Taoyuan City 330, Taiwan (R.O.C.)">
+    <meta name="author" content="和氣大愛文教基金會">
+    <meta name="copyright" content="和氣大愛文教基金會">
+    <!-- Favicon icon -->
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+
+    <title>和氣大愛後台管理系統</title>
+
+    <!-- Plugins CSS -->
+    <!-- ============================================================== -->
+    <link href="assets/node_modules/dropify/dist/css/dropify.min.css" rel="stylesheet" />
+    <!-- summernotes CSS -->
+    <link href="css/summernote.css" rel="stylesheet" />
+    <!-- Date picker plugins css -->
+    <link href="css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <!-- DateRangepicker plugins css -->
+    <link href="css/daterangepicker.css" rel="stylesheet" type="text/css" />
+    <!-- Timepicker plugins css -->
+    <link href="css/jquery.timepicker.min.css" rel="stylesheet">
+
+    <!-- select2 -->
+    <link href="css/select2.min.css" rel="stylesheet" />
+    <!-- sumoselect -->
+    <link href="css/sumoselect.css" rel="stylesheet" />
+    <!-- icheck CSS -->
+    <link href="assets/node_modules/icheck/skins/all.css" rel="stylesheet" />
+    <!-- upload css -->
+    <link href="dist/css/pages/file-upload.css" rel="stylesheet" />
+    <!-- Footable CSS -->
+    <link href="css/footable.core.css" rel="stylesheet" />
+    <link href="css/bootstrap-select.min.css" rel="stylesheet" />
+    <!-- Page CSS -->
+    <link href="dist/css/pages/contact-app-page.css" rel="stylesheet" />
+    <link href="dist/css/pages/footable-page.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="dist/css/style.css" rel="stylesheet" />
+    <link href="css/main.css" rel="stylesheet" />
+    <link href="css/Ma_Style.css?230609" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+        <style>
+            .last-child .dropdown-menu {
+                left: -90px !important;
+            }
+        </style>
+
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+        <asp:Label ID="LB_HAccount" runat="server" Text="" Visible="false"></asp:Label>
+        <asp:Label ID="LB_HUserName" runat="server" Text="" Visible="false"></asp:Label>
+        <asp:Label ID="LB_HUserHID" runat="server" Text="" Visible="false"></asp:Label>
+        <asp:Label ID="LB_EIPUID" runat="server" Text="" Visible="false"></asp:Label>
+
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <%-- <div class="preloader">
+            <div class="loader">
+                <div class="loader__figure"></div>
+                <p class="loader__label">和氣大愛</p>
+            </div>
+        </div>--%>
+        <!-- ============================================================== -->
+        <!-- Main wrapper - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="../HIndex.aspx">
+                        <img src="../images/logo-header_white.png" alt="Hochi Logo" class="img-responsive logo"><%--<span style="color: #fff; font-size: 15px;">測試區</span>--%>
+                    </a>
+                </div>
+
+                <div class="navbar-right">
+                    <div id="navbar-menu">
+                        <ul class="nav navbar-nav">
+
+                            <li class="icon-menu d-none">
+                                <a class="icon-menu d-flex" data-target="#Div_Notify" data-toggle="modal" href="javascript:void(0);" style="color: #fff; font-size: 15px;" title="系統通知"><i class="ti-bell"></i>
+                                    <p class="count mb-0 ml-1">
+                                        <asp:Label ID="LB_NotifyNum" runat="server" Text="0" Class="cart-count"></asp:Label>
+                                    </p>
+
+                                </a>
+
+                            </li>
+
+
+                            <li class="icon-menu">
+                                <i class="ti-user"></i>
+                                <asp:Label ID="LB_HName" runat="server" Style="color: #fff; font-size: 15px;" Text=""></asp:Label>
+                                <%--<asp:Label ID="Label1" runat="server" Text="Label" Visible="true"></asp:Label>--%>
+                            </li>
+                            <li class="dropdown">
+                                <a class="icon-menu d-none d-sm-none d-md-none d-lg-block" href="../HIndex.aspx" style="color: #fff; font-size: 15px;" title="回到前台"><i class="ti-back-right"></i></a>
+                            </li>
+
+                            <li>
+                                <%--<a href="javascript:void(0)" class="icon-menu d-none d-sm-none d-md-none d-lg-block" title="登出"><i class="icon-login"></i></a>--%>
+                                <asp:LinkButton ID="LBtn_LogOut" runat="server" ToolTip="登出" class="icon-menu d-none d-sm-none d-md-none d-lg-block" OnClick="LBtn_LogOut_Click"><i class="icon-login"></i></asp:LinkButton>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="navbar-btn">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                        <i class="lnr lnr-menu fa fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="main_menu">
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container">
+
+                        <div class="navbar-collapse align-items-center collapse" id="navbar">
+                            <ul class="navbar-nav">
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-circle-o"></i><span>學員及權限管理</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="HMember_Edit.aspx">學員管理</a></li>
+                                        <li><a href="HPosition_Edit.aspx">天命法位管理</a></li>
+                                        <li><a href="HUsualTask_Edit.aspx">常態任務管理</a></li>
+                                        <li><a href="HCourseTask_Edit.aspx">體系護持工作項目管理</a></li>
+                                        <li><a href="HMentorRegister.aspx">護持者登記</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil-square-o"></i><span>檢覈模組</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="HExamParameter.aspx">檢覈相關參數設定</a></li>
+                                        <li><a href="HExamContent_Edit.aspx">檢覈內容管理</a></li>
+                                        <li><a href="HTest_Edit.aspx">檢覈項目管理</a></li>
+                                        <li><a href="HExamBase_Edit.aspx">題庫管理</a></li>
+                                        <!--AA20241218_先隱藏不更新上正式-->
+                                        <li><a href="HExamPaper_Edit.aspx">考卷管理</a></li>
+                                        <li><a href="HScore.aspx">檢覈成績登錄</a></li>
+                                        <li><a href="HExamAssign.aspx">安排考場教室管理</a></li>
+                                        <li class="d-none"><a href="HQualify_Edit.aspx">資格檢覈紀錄</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file-text-o"></i><span>課程模組</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="HCourseTemplate_Edit.aspx">課程範本管理</a></li>
+                                        <li><a href="HCourse_Edit.aspx">開課管理</a></li>
+                                        <li><a href="HTeacher_Edit.aspx">講師管理</a> </li>
+                                        <%--<li><a href="HTMaterial_Edit.aspx">講師教材管理</a> </li>--%>
+                                        <li><a href="HCourseApply_edit.aspx">課程報名清單</a></li>
+                                        <li><a href="HSystemApply_Edit.aspx">體系護持報名管理</a></li>
+                                        <li><a href="HCourseLink_Edit.aspx">課程Zoom連結管理</a></li>
+                                        <li><a href="HACMaterial.aspx">課後教材管理</a></li>
+                                        <li><a href="HLCourseRelated_Edit.aspx">前導課程管理</a></li>
+                                        <li><a href="HCoursePackage_Edit.aspx">套裝課程管理</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-o"></i><span>講師教材</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="HTMaterial_Edit.aspx">講師教材管理</a> </li>
+                                        <li><a href="HTMaterial_View.aspx">講師教材瀏覽區</a> </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item d-none">
+                                    <a href="HCourseVerify.aspx" class="nav-link"><i class="fa fa-check-square-o"></i><span>簽核管理</span></a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-check-square-o"></i><span>簽核管理</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="HCourseVerify.aspx">開班審核</a></li>
+                                        <li><a href="HTransferVerify.aspx">轉區審核</a></li>
+                                        <li><a href="HTeamTransferVerify.aspx">轉團審核</a></li>
+                                        <li><a href="HDayoffVerify.aspx">請假審核</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i><span>訂單模組</span></a>
+                                    <ul class="dropdown-menu order-menu">
+                                        <li><a href="HOrder_Edit.aspx">訂單管理</a></li>
+                                        <li><a href="HRefund_Edit.aspx">人工退款訂單管理</a></li>
+                                        <li><a href="HCourseBookingB.aspx">幫他人報名</a></li>
+                                        <li><a href="HCCPeriodVerify.aspx">信用卡授權審核管理<%--信用卡定期定額授權審核管理--%></a></li>
+                                        <%--<li><a onclick="alert('尚未開放~');">信用卡授權訂單</a></li>--%>
+                                        <li><a href="HCCPeriodOrder_Edit.aspx">信用卡授權訂單</a></li>
+                                        <li><a href="HPoints.aspx">點數管理</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item">
+                                    <%--<li class="nav-item">
+                                    <a href="HPoints.aspx" class="nav-link"><i class="fa fa-credit-card"></i><span>點數管理</span></a>
+                                </li>--%>
+                                <li class="nav-item">
+                                    <a href="HRollcall_Edit.aspx" class="nav-link"><i class="fa fa-smile-o"></i><span>點名管理</span></a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file-text-o"></i><span>玉成報表</span></a>
+                                    <ul class="dropdown-menu dropdown_scroll">
+                                        <li><a class="font-weight-bold text-purple" href="HOrganization.aspx">各區與光團及導師階層總覽</a></li>
+                                        <li><a href="HEnrollment.aspx">單一課程報名總名單</a></li>
+                                        <li><a href="HEnrollmentAll.aspx">同課程同日期報名總名單</a></li>
+                                        <li class="d-none"><a href="HCSupportList.aspx">班會護持分工表</a></li>
+                                        <li><a href="HStayList.aspx">住宿登記表</a></li>
+                                        <li><a href="HSupportTimeList.aspx">體系護持分工時間表</a></li>
+                                        <li><a href="HEnrollAnalysis.aspx">一對一護持者總名單</a></li>
+                                        <li><a href="HApplyRecord.aspx">單一課程參班紀錄分析</a></li>
+                                        <li><a href="HApplyRecordSame.aspx">同課程同日期參班紀錄分析</a></li>
+                                        <li><a href="HCourseAttendRec.aspx">課程出席紀錄表	</a></li>
+                                        <li><a href="HCourseSupportRec.aspx">課程護持出席紀錄表</a></li>
+                                        <li><a href="HMCTeamList.aspx">班會光團連線名單</a></li>
+                                        <li><a href="HAMCTeamList.aspx">區光團連線名單</a></li>
+                                        <li><a href="HQAnalysis.aspx">問卷統計分析表</a></li>
+                                        <li><a href="HQAnalysisSame.aspx">同課程同日期問卷回饋總表</a></li>
+                                        <li><a href="HPaymentStatus.aspx">各班繳費狀況表</a></li>
+                                        <li><a href="HCPCountingReport.aspx">開課明細與人數統計表</a></li>
+                                        <li><a href="HMCBRecord.aspx">學員報名參班狀況統計表</a></li>
+                                        <li><a href="HFResponseReport.aspx">體悟分享護持者回應統計表</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file-text-o"></i><span>財務報表</span></a>
+                                    <ul class="dropdown-menu dropdown_scroll">
+                                        <li><a href="HOrderReport.aspx">訂單明細總表</a></li>
+                                        <li><a href="HAnnualReport.aspx">文化年度各月各課程大表</a></li>
+                                        <li><a href="HFPaymentStatus.aspx">預算執行報表</a></li>
+                                        <li><a href="HCCPeriodReport.aspx">信用卡授權交易總表</a></li>
+
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-commenting-o"></i><span>消息影音管理</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="HNews_Edit.aspx">最新消息</a></li>
+                                        <li><a href="HActivity_Edit.aspx">課程影音</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="HQuestion_Edit.aspx" class="nav-link"><i class="fa fa-file-text-o"></i><span>問卷管理</span></a>
+                                </li>
+
+                                <%--<li class="nav-item dropdown">
+                                <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file-text-o"></i><span>問卷管理</span></a>
+                                <ul class="dropdown-menu animated bounceIn">
+                                    <li><a href="HQuestion_Edit.aspx">問卷管理</a></li>
+                                    <li><a href="HQuesManagement_Edit.aspx">課程問卷管理</a></li>
+                                </ul>
+                            </li>--%>
+                                <li class="nav-item dropdown">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file-text-o"></i><span>系統管理</span></a>
+                                    <ul class="dropdown-menu dropdown_scroll">
+                                        <li><a href="HSlider_Edit.aspx">首頁輪播圖</a></li>
+                                        <li><a href="HParameter.aspx">參數設定</a></li>
+                                        <li><a href="HLArea_Edit.aspx">大區管理</a></li>
+                                        <li><a href="HArea_Edit.aspx">區管理</a></li>
+                                        <li><a href="HMTeam_Edit.aspx">母光團管理</a></li>
+                                        <li><a href="HCTeam_Edit.aspx">光團(小組)管理</a></li>
+                                        <li><a href="HDiscountCode_Edit.aspx">折扣碼管理</a></li>
+                                        <li><a href="HDCGroup_Edit.aspx">折扣碼群組管理</a></li>
+                                        <li><a href="HAutoRCCourse.aspx">自動產生點名之課程設定</a></li>
+                                        <li><a href="HSetTopCourse.aspx">首頁最新課程設定</a></li>
+                                        <li><a href="HBudgetType_Edit.aspx">預算類別管理</a></li>
+                                        <li><a href="HFParameter.aspx">捐款參數設定</a></li>
+                                        <!--AE20240226_先隱藏不更新至正式區 d-none-->
+                                        <li><a href="HCCRegular.aspx">定期定額專區</a></li>
+
+                                    </ul>
+                                </li>
+
+                                <!--AE20240226_先隱藏不更新至正式區 -->
+                                <li class="nav-item dropdown lastchild">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file-text-o"></i><span>專欄設定</span></a>
+                                    <ul class="dropdown-menu dropdown_scroll" style="left: -90px !important;">
+                                        <li><a href="HSCForumClassSetting.aspx">專欄MENU設定</a></li>
+                                        <li><a href="HSCParameter.aspx">專欄相關參數設定</a></li>
+                                        <li><a href="HSCCourseSetting.aspx">課程討論區與主題設定</a></li>
+                                        <li><a href="HSCRuleTemplate.aspx">版規範本</a></li>
+                                        <li><a href="HSCModeratorSetting.aspx">討論區管理員設定</a></li>
+                                        <li><a href="javascript:void(0);" onclick="alert('此功能尚未開放哦~');">專欄報表分析</a></li>
+
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+
+
+
+        </nav>
+
+        <!--每日待辦提醒與異常通知 Modal start-->
+        <div class="modal fade" id="Div_Notify" role="dialog" aria-labelledby="member-edit-profile" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog" role="document" style="max-width: 80%">
+                <div class="modal-content" style="width: 100%">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center text-danger" id="member-edit-profile-title"><i class="ti-bell mr-1"></i>每日待辦提醒與異常通知</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="關閉視窗">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+
+                    <div class="hochi-form">
+                        <div class="modal-body">
+                            <p class="mb-1 text-danger">*點通知內容可連結至對應的功能模組頁</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center d-none">項次</th>
+                                            <th class="text-center">通知類別</th>
+                                            <th>內容</th>
+                                            <th>申請日期</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--開班審核通知-->
+                                        <asp:SqlDataSource ID="SDS_HCourseVerify" runat="server" ConnectionString="<%$ConnectionStrings:HochiSystemConnection%>" ProviderName="System.Data.SqlClient" SelectCommand=""></asp:SqlDataSource>
+                                        <asp:Repeater ID="Rpt_HCourseVerify" runat="server" DataSourceID="SDS_HCourseVerify" OnItemDataBound="Rpt_HCourseVerify_ItemDataBound">
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td class="text-center d-none">
+                                                        <asp:Label ID="LB_ItemIndex" runat="server" Text='<%# Container.ItemIndex+1%>'></asp:Label>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <asp:Label ID="LB_NotifyType" runat="server" Text="【開班待審核】" Style='color: #6b49a9'></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/system/HCourseVerify.aspx" target="_parent" style="color: #000">
+                                                            <asp:Label ID="LB_HNotifyContent" runat="server" Text=""></asp:Label>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="LB_HApplyTime" runat="server" Text='<%# Eval("HApplyTime") %>'></asp:Label>
+                                                    </td>
+                                                </tr>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+
+                                        <!--請假審核通知-->
+                                        <asp:SqlDataSource ID="SDS_HDayOffVerify" runat="server" ConnectionString="<%$ConnectionStrings:HochiSystemConnection%>" ProviderName="System.Data.SqlClient" SelectCommand=""></asp:SqlDataSource>
+                                        <asp:Repeater ID="Rpt_HDayOffVerify" runat="server" DataSourceID="SDS_HDayOffVerify" OnItemDataBound="Rpt_HDayOffVerify_ItemDataBound">
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td class="text-center d-none">
+                                                        <asp:Label ID="LB_ItemIndex" runat="server" Text='<%# Container.ItemIndex+1%>'></asp:Label>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <asp:Label ID="LB_NotifyType" runat="server" Text="【請假待審核】" Style='color: #04c'></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/system/HDayoffVerify.aspx" target="_parent" style="color: #000">
+                                                            <asp:Label ID="LB_HNotifyContent" runat="server" Text=""></asp:Label>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="LB_HAStatusDT" runat="server" Text='<%# Eval("HAStatusDT") %>'></asp:Label>
+                                                    </td>
+                                                </tr>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+
+
+                                        <!--人工退款通知-->
+                                        <asp:SqlDataSource ID="SDS_HRefund" runat="server" ConnectionString="<%$ConnectionStrings:HochiSystemConnection%>" ProviderName="System.Data.SqlClient" SelectCommand=""></asp:SqlDataSource>
+                                        <asp:Repeater ID="Rpt_HRefund" runat="server" DataSourceID="SDS_HRefund" OnItemDataBound="Rpt_HRefund_ItemDataBound">
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td class="text-center d-none">
+                                                        <asp:Label ID="LB_ItemIndex" runat="server" Text='<%# Container.ItemIndex+1%>'></asp:Label>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <asp:Label ID="LB_NotifyType" runat="server" Text="【人工退款待處理】" Style='color: #e46843'></asp:Label>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/system/HRefund_Edit.aspx" target="_parent" style="color: #000">
+                                                            <asp:Label ID="LB_HNotifyContent" runat="server" Text=""></asp:Label>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="LB_HCXLApplyDate" runat="server" Text='<%# Eval("HCXLApplyDate") %>'></asp:Label>
+                                                    </td>
+                                                </tr>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+
+
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
+        <footer class="footer d-none">
+            <strong>Design by Gwange INC 2024</strong>
+        </footer>
+
+
+
+
+    </form>
+</body>
+</html>

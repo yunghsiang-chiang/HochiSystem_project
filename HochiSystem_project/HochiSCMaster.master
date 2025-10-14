@@ -1,0 +1,975 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="HochiSCMaster.master.cs" Inherits="HochiSCMaster" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="zh-tw">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="keywords" content="和氣大愛 大愛光老師專欄 成長紀錄">
+    <meta name="description" content="和氣大愛源自於中華文化，是一套生命重塑系統，是無宗教屬性的中性組織，倡導「全球靈性成長全人教育」理念，玉成系統讓每一個人都可以來參加和氣大愛的課程，讓地球上每一個人都能夠擁有健康的身體與光明的心智，​回到生命純淨源頭，發揮完整的靈性，​從自己開始改變地球。">
+    <meta name="author" content="和氣大愛">
+    <meta name="copyright" content="和氣大愛">
+
+    <title>大愛光老師專欄</title>
+
+    <link rel="icon" href="images/favicon.png" sizes="32x32">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC|Noto+Serif+TC:700&display=swap&subset=chinese-traditional" rel="stylesheet">
+    <link href="fonts/fontawesome-5.12.0/css/fontawesome.min.css" rel="stylesheet">
+    <link href="fonts/fontawesome-5.12.0/css/brands.min.css" rel="stylesheet">
+    <link href="fonts/fontawesome-5.12.0/css/solid.min.css" rel="stylesheet">
+    <link href="fonts/fontawesome-5.12.0/css/regular.min.css" rel="stylesheet">
+    <link href="fonts/fontawesome-5.12.0/css/svg-with-js.min.css" rel="stylesheet">
+    <link href="bootstrap-4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- themify icon css -->
+    <link href="assets/icons/themify-icons/themify-icons.css" rel="stylesheet">
+    <!-- icheck CSS -->
+    <link href="assets/icheck/skins/all.css" rel="stylesheet" />
+    <!-- Datepicker plugins css -->
+    <link href="css/bootstrap-datepicker3.css" rel="stylesheet" type="text/css" />
+    <!-- DateRangepicker plugins css -->
+    <link href="css/daterangepicker.css" rel="stylesheet" type="text/css" />
+    <!--dropify css -->
+    <link href="js/dropify/css/dropify.min.css" rel="stylesheet" type="text/css" />
+    <!-- Timepicker plugins css -->
+    <link href="css/jquery.timepicker.min.css" rel="stylesheet">
+    <!-- sumoselect -->
+    <link href="css/sumoselect.css" rel="stylesheet" />
+    <!-- Footable CSS -->
+    <link href="assets/footable/css/footable.core.css" rel="stylesheet" />
+    <link href="assets/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+
+    <link href="css/select2.min.css" rel="stylesheet">
+    <link href="css/style.css?230214" rel="stylesheet">
+    <link href="css/index.css?221203" rel="stylesheet">
+    <link href="css/owl.carousel.min.css" rel="stylesheet">
+    <link href="css/owl.theme.default.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/shoppingcart.css?221203">
+
+    <link rel="stylesheet" href="css/custom.css?221203">
+    <link rel="stylesheet" href="css/modal-video.min.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/forum.css?250106">
+    <!-- DateRangepicker plugins css -->
+    <link href="css/daterangepicker.css" rel="stylesheet" type="text/css" />
+
+    <!-- datatable CSS -->
+    <link href="css/datatables.min.css" rel="stylesheet" />
+    <link href="css/CustomDatatable.css" rel="stylesheet" />
+    <!-- mobile CSS -->
+    <link href="css/mobile.css?250319" rel="stylesheet" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/introjs.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.2.2/intro.min.js"></script>
+
+    <style>
+        .navbar-hochi .nav-link.active:before {
+            display: none;
+        }
+
+
+        .sidebar {
+            will-change: min-height;
+        }
+
+        .sidebar__inner {
+            transform: translate(0, 0); /* For browsers don't support translate3d. */
+            transform: translate3d(0, 0, 0);
+            will-change: position, transform;
+        }
+
+        .cart-dropdown-menu .title h4 {
+            font-size: 1.1rem;
+        }
+
+        .cart-dropdown-menu .title {
+            font-size: 1rem;
+        }
+
+        .introjs-tooltip-header {
+            padding-right: 10px;
+        }
+
+        .introjs-tooltip {
+            min-width: 280px;
+        }
+
+        .introjs-tooltiptext {
+            padding: 10px;
+        }
+    </style>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <asp:Label ID="LB_HAccount" runat="server" Text="" Visible="false"></asp:Label>
+
+        <asp:Label ID="LB_HUserHID" runat="server" Text="" Visible="false"></asp:Label>
+        <asp:TextBox ID="TB_EIPUid" runat="server" Text="" Visible="false"></asp:TextBox>
+
+
+
+
+        <div class="warp">
+
+
+            <!--header-->
+            <header class="container-fulid header">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-light  navbar-hochi">
+                        <a class="navbar-brand destop-brand" href="HSCIndex.aspx">
+                            <img src="/images/logo-header.png" alt="大愛光老師專欄"><%--<span class="font-weight-bold text-danger">測試區</span>--%>
+                        </a>
+
+                        <button id="mobilemenu" class="navbarmenu-toggler" type="button" data-toggle="collapse" data-target="#ctl00_Div_MobileMenu" aria-controls="Div_MobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+                            <%--  選單--%><span class="navbar-icon"></span>
+                            <%--<span class="fa fa-chevron-down"></span>--%>
+                        </button>
+
+                        <button id="mobilesearch" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarhochi" aria-controls="navbarhochi" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="fa fa-search"></span>
+                        </button>
+
+
+                        <div class="collapse navbar-collapse justify-content-start" id="navbarhochi">
+                            <div id="tour1" class="col-md-6">
+                                <div class="search-group">
+                                    <asp:TextBox ID="TB_SKeyWord" runat="server" CssClass="form-control search_bar" Placeholder="請輸入關鍵字"></asp:TextBox>
+                                    <asp:LinkButton ID="LBtn_Search" runat="server" OnClick="LBtn_Search_Click"><span class="fa fa-search search-group-icon"></span></asp:LinkButton>
+
+                                </div>
+                            </div>
+                            <div id="tour2" class="col-md-6">
+                                <asp:LinkButton ID="LBtn_AdvancedSearch" runat="server" CssClass="mr-2 btn btn-outline-purple btn-rounded btn-special" data-toggle="modal" data-target="#search">進階搜尋</asp:LinkButton>
+                                <asp:LinkButton ID="LBtn_NewSearch" runat="server" CssClass="mr-2 btn btn-outline-purple btn-rounded" OnClick="LBtn_NewSearch_Click">最新主題</asp:LinkButton>
+                                <asp:LinkButton ID="LBtn_HotSearch" runat="server" CssClass="btn btn-outline-purple btn-rounded" OnClick="LBtn_HotSearch_Click">熱門主題</asp:LinkButton>
+                            </div>
+                        </div>
+
+
+                        <div id="tour3" class="btn_inner">
+                            <ul class="navbar-nav align-items-center justify-content-end">
+                                <!--暫時先隱藏，後續確認要開發再顯示-->
+                                <li>
+                                    <button id="startTourBtn" class="nav-link text-info" style="background: 0; border: 0;">網站導覽</button>
+                                </li>
+                                <li class="nav-item">
+                                     <a class="nav-link" href="https://eip.hochi.org.tw/LaoshiChannel.aspx?category=0" onclick="" title="切換成經典版" target="_blank">經典版
+ </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="HCourseList.aspx" title="玉成系統" target="_blank">EDU課程報名
+                                    </a>
+                                </li>
+
+
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                        <li class="nav-item dropdown" runat="server" id="Li1">
+                                            <a class="nav-link dropdown-toggle bell-notify" id="bellnotify" runat="server" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="fa fa-bell bellstyle"></span>
+                                                <asp:Label ID="LB_NotifySum" runat="server" Text="Label" class="notify-label"></asp:Label>
+                                            </a>
+                                            <ul id="Cartlist" runat="server" class="dropdown-menu cart-dropdown-menu" aria-labelledby="cartList" data-gene="init:initTmpl" data-tmpl="small-cart">
+                                                <%--style="width: 345px"--%>
+
+                                                <li class="d-flex justify-content-between align-items-center title mt-0">
+                                                    <h4 class="mb-0 font-weight-bold">未讀通知 (<asp:Label ID="LB_NotifyNum" runat="server" Text="0"></asp:Label>)
+
+                                                    </h4>
+                                                    <!--功能尚未完成-->
+                                                    <div>
+                                                        <asp:LinkButton ID="LBtn_ReadAll" runat="server" OnClick="LBtn_ReadAll_Click">全部已讀</asp:LinkButton>
+                                                        <asp:LinkButton ID="LBtn_CloseNotify" runat="server" CssClass="btn-closemenu" OnClick="LBtn_CloseNotify_Click">
+ <span class="ti-close"></span>
+                                                        </asp:LinkButton>
+                                                    </div>
+                                                </li>
+
+                                                <div class="d-flex justify-content-between title mt-0">
+                                                    <ul class="nav nav-tabs" role="tablist">
+                                                        <asp:Label ID="LB_NavTab" runat="server" Text="1" Visible="false"></asp:Label><!--目前在哪個tab-->
+                                                        <li class="nav-item">
+                                                            <asp:LinkButton ID="LBtn_Reply" runat="server" CssClass="nav-link" TabIndex="1" OnClick="LBtn_Tab_Click" OnClientClick="event.stopPropagation();">回應(<asp:Label ID="LB_ReplyNum" runat="server" Text="0"></asp:Label>)</asp:LinkButton>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <asp:LinkButton ID="LBtn_Mood" runat="server" CssClass="nav-link" TabIndex="2" OnClick="LBtn_Tab_Click" OnClientClick="event.stopPropagation();">心情(<asp:Label ID="LB_MoodNum" runat="server" Text="0"></asp:Label>)</asp:LinkButton>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <asp:LinkButton ID="LBtn_QA" runat="server" CssClass="nav-link" TabIndex="3" OnClick="LBtn_Tab_Click" OnClientClick="event.stopPropagation();">提問(<asp:Label ID="LB_QANum" runat="server" Text="0"></asp:Label>)</asp:LinkButton>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <asp:LinkButton ID="LBtn_Share" runat="server" CssClass="nav-link" TabIndex="4" OnClick="LBtn_Tab_Click" OnClientClick="event.stopPropagation();">分享(<asp:Label ID="LB_ShareNum" runat="server" Text="0"></asp:Label>)</asp:LinkButton>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <asp:LinkButton ID="LBtn_Others" runat="server" CssClass="nav-link" TabIndex="5" OnClick="LBtn_Tab_Click" OnClientClick="event.stopPropagation();">其他(<asp:Label ID="LB_OthersNum" runat="server" Text="0"></asp:Label>)</asp:LinkButton><!--包含被刪除、隱藏的情況-->
+                                                        </li>
+                                                    </ul>
+
+                                                </div>
+
+
+                                                <div class="divide-line divide-line-100"></div>
+
+
+
+                                                <%--<li>--%>
+                                                <div class="tab-content">
+                                                    <ul class="cart-item-list ">
+
+                                                        <asp:SqlDataSource ID="SDS_HNotification" runat="server" ConnectionString="<%$ConnectionStrings:HochiSystemConnection%>" ProviderName="System.Data.SqlClient" SelectCommand=""></asp:SqlDataSource>
+                                                        <asp:Repeater ID="Rpt_HNotification" runat="server" DataSourceID="SDS_HNotification" OnItemDataBound="Rpt_HNotification_ItemDataBound">
+                                                            <ItemTemplate>
+
+                                                                <li class="infoitem">
+
+                                                                    <a class="clearfix js-cart-item nav-tracking-btn cart-item">
+                                                                        <div class="meta">
+                                                                            <p class="notify mb-0">
+                                                                                <asp:Label ID="LB_Alert" runat="server" CssClass="text-danger" Text="●" Visible="false"></asp:Label>
+                                                                                <asp:Label ID="LB_HUsername" runat="server" Text='<%# Eval("HActorMemberName") %>' CssClass="font-weight-bold d-inline"></asp:Label>
+                                                                                <asp:Label ID="LB_HAction" runat="server" Text=""></asp:Label>
+                                                                                <asp:HyperLink ID="HL_HLink" runat="server" Target="_parent">
+                                                                                    <asp:Label ID="LB_HContent" runat="server" Text="" CssClass="d-inline mb-0"></asp:Label>
+                                                                                </asp:HyperLink>
+
+
+                                                                            </p>
+                                                                        </div>
+                                                                        <p class="time mb-0 text-blue text-left">
+                                                                            <asp:Label ID="LB_Time" runat="server" Text='<%# Eval("HCreateDT") %>'></asp:Label>
+                                                                        </p>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="justify-content-end mt-0 d-none">
+                                                                    <asp:LinkButton ID="LBtn_ReadMore" runat="server">查看更多</asp:LinkButton>
+                                                                </li>
+                                                            </ItemTemplate>
+                                                        </asp:Repeater>
+                                                    </ul>
+
+
+                                                </div>
+                                                <%-- </li>--%>
+                                            </ul>
+
+                                        </li>
+
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="LBtn_Reply" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="LBtn_Mood" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="LBtn_QA" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="LBtn_Share" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="LBtn_Others" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="LBtn_ReadAll" EventName="Click" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+
+
+                                <li class="nav-item" runat="server" id="member">
+                                    <a class="nav-link" href="HSCDetail.aspx">
+                                        <span class="fa fa-user"></span>&nbsp;
+                                        <asp:Label ID="LB_HUserName" runat="server" Text=""></asp:Label>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <asp:LinkButton ID="LBtn_LogOut" runat="server" ToolTip="登出" class="dropdown-item p-0" Style="color: #818181" OnClick="LBtn_LogOut_Click"><i class="fas fa-sign-out-alt"></i></asp:LinkButton>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </nav>
+                </div>
+            </header>
+            <!--header-->
+
+
+
+            <main class="container-fluid">
+                <div>
+                    <%--class="container"--%>
+
+                    <div class="area">
+                        <div class="sq">
+                            <div id="twopart" style="padding-top: 15px">
+
+
+
+
+
+
+                                <div class="leftpart" id="Div_Left" runat="server">
+
+
+                                    <div id="tour4" class="sidearea pr-0 pl-0">
+                                        <h1 class="headtitle hottag all mt-0"><span class="ti-pin-alt mr-1"></span>我的最愛</h1>
+
+                                        <div class="defaultLeftMenu">
+                                            <div class="defaultLeftList">
+                                                <div class="defaultLeftContent">
+
+                                                    <asp:SqlDataSource ID="SDS_HSCFClassFavorite" runat="server" ConnectionString="<%$ ConnectionStrings:HochiSystemConnection %>" SelectCommand="" ProviderName="System.Data.SqlClient"></asp:SqlDataSource>
+                                                    <asp:Repeater ID="Rpt_HSCFClassFavorite" runat="server" DataSourceID="SDS_HSCFClassFavorite" OnItemDataBound="Rpt_HSCFClassFavorite_ItemDataBound">
+                                                        <ItemTemplate>
+                                                            <div class="panel-heading">
+                                                                <asp:LinkButton ID="LBtn_HSCFClassFavoriteName" runat="server" CssClass="text-dark" CommandArgument='<%# Eval("HSCForumClassID") %>' OnClick="LBtn_HSCFClassFavoriteName_Click">
+                                                                    <asp:Literal ID="Literal1" runat="server" Text='<%# Eval("HSCFCName") %>'></asp:Literal>
+                                                                </asp:LinkButton>
+                                                            </div>
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
+                                                    <div class="panel-heading">
+                                                        <a href="HSCGRecord.aspx" target="_self" class="text-dark">我的成長紀錄</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sidearea pr-0 pl-0" id="menu">
+                                        <h1 class="headtitle hottag all mt-0">
+                                            <asp:LinkButton ID="LBtn_BackIndex" runat="server" OnClick="LBtn_BackIndex_Click"> <span class="ti-home mr-1"></span></asp:LinkButton>
+                                            <%--<a href="HSCIndex.aspx">
+                                            <span class="ti-home mr-1"></span> </a>--%>所有討論區</h1>
+
+                                        <div id="sidebar" class="sidebar">
+                                            <div class="sidebar__inner">
+                                                <!-- Content goes here -->
+
+                                                <div class="defaultLeftMenu">
+                                                    <div class="defaultLeftList">
+                                                        <div class="defaultLeftContent">
+
+                                                            <asp:SqlDataSource ID="SDS_HSCForumClassSearch" runat="server" ConnectionString="<%$ ConnectionStrings:HochiSystemConnection %>" SelectCommand="SELECT HID, HSCFCMaster, HSCFCName, HSCFCLevel, HStatus FROM HSCForumClass WHERE HStatus=1 AND HSCFCMaster='0' AND HSCFCLevel='10' ORDER BY HSort ASC" ProviderName="System.Data.SqlClient"></asp:SqlDataSource>
+                                                            <asp:Repeater ID="Rpt_HSCForumClassSearch" runat="server" OnItemDataBound="Rpt_HSCForumClassSearch_ItemDataBound" DataSourceID="SDS_HSCForumClassSearch">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="LB_HID" runat="server" Text='<%# Eval("HID") %>' Visible="false"></asp:Label>
+                                                                    <!-- 利用data-target指定要折叠的分组列表 -->
+                                                                    <div class="panel-heading" id="collapseListGroupHeading_<%# Eval("HID") %>" data-toggle="collapse"
+                                                                        data-target="#collapseListGroup_<%# Eval("HID") %>" role="tab">
+                                                                        <h5 class="text-left listtitle d-flex justify-content-between align-items-center">
+
+                                                                            <asp:Label ID="LB_HSCFCNameMaster" runat="server" CssClass="d-inline-block" Text='<%# Eval("HSCFCName") %>'></asp:Label>
+                                                                            &nbsp;
+     
+  <asp:Label ID="LB_MasterNum" runat="server" class="notify-label" Text="" Visible="false"></asp:Label>
+                                                                            <%-- <span class="notify-label"></span>--%>
+                                                                            <span id="arrowicon" runat="server" class="fa fa-chevron-down  down d-inline-block" style="margin-left: 20%;"></span>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <!-- .panel-collapse和.collapse标明折叠元素 .in表示要显示出来 -->
+
+                                                                    <div id="collapseListGroup_<%# Eval("HID") %>" class="panel-collapse collapse in" role="tabpanel"
+                                                                        aria-labelledby="collapseListGroupHeading_<%# Eval("HID") %>">
+                                                                        <ul class="text-left solutionList">
+                                                                            <asp:SqlDataSource ID="SDS_HSCForumClassBSearch" runat="server" ConnectionString="<%$ ConnectionStrings:HochiSystemConnection %>" SelectCommand="" ProviderName="System.Data.SqlClient"></asp:SqlDataSource>
+                                                                            <asp:Repeater ID="Rpt_HSCForumClassBSearch" runat="server" OnItemDataBound="Rpt_HSCForumClassBSearch_ItemDataBound" DataSourceID="SDS_HSCForumClassBSearch">
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="LB_HID" runat="server" Text='<%# Eval("HID") %>' Visible="false"></asp:Label>
+                                                                                    <li role="presentation">
+                                                                                        <asp:LinkButton ID="LBtn_HSCForumClassB" runat="server" CommandArgument='<%# Eval("HID") %>' OnClick="LBtn_HSCForumClassB_Click">
+                                                                                            <asp:Label ID="LB_HSCForumClassB" runat="server" Text='<%# Eval("HSCFCName") %>'></asp:Label>
+                                                                                            <asp:Label ID="LB_HSCForumClassBNum" runat="server" class="notify-label ml-2" Text="" Visible="false"></asp:Label></span>
+                                                                                        </asp:LinkButton>
+                                                                                    </li>
+                                                                                </ItemTemplate>
+                                                                            </asp:Repeater>
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </ItemTemplate>
+                                                            </asp:Repeater>
+
+                                                            <div class="panel-heading">
+                                                                <a href="HSCGRecordForum.aspx" class="text-dark">
+                                                                    <h5 class="text-left">成長紀錄
+                                                                    </h5>
+                                                                </a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+
+
+
+                                    <hr />
+
+
+                                    <div style="font-size: 0.76rem;">
+                                        和氣大愛文教基金會 版權所有 ©
+                                        <script>document.write(new Date().getFullYear());</script>
+                                    </div>
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                </asp:ContentPlaceHolder>
+
+
+                                <div class="rightpart" id="Div_Right" runat="server">
+                                    <div class="sidearea" id="tour5">
+                                        <h1 class="headtitle hottag mt-0"><span class="ti-heart mr-1"></span>熱門標籤
+                                        </h1>
+                                        <div class="newlist">
+                                            <ul class="d-flex list-unstyled align-items-center justify-content-start hotkeyword">
+
+                                                <asp:SqlDataSource ID="SDS_HSCHotHashTag" runat="server" ConnectionString="<%$ ConnectionStrings:HochiSystemConnection %>" SelectCommand="SELECT TOP(20) Count(*) AS Num, value AS HashTagName FROM HSCTopic CROSS APPLY Split(HHashTag, ',') WHERE value<>'' AND HStatus=1 GROUP BY value ORDER BY Num DESC" ProviderName="System.Data.SqlClient"></asp:SqlDataSource>
+                                                <asp:Repeater ID="Rpt_HSCHotHashTag" runat="server" DataSourceID="SDS_HSCHotHashTag">
+                                                    <ItemTemplate>
+
+                                                        <li runat="server" id="Li_HSCHotHashTag" class="mr-2 btn btn-outline-purple btn-rounded">
+                                                            <asp:LinkButton ID="LBtn_HSCHotHashTag" runat="server" Text='<%# Eval("HashTagName") %>' OnClick="LBtn_HSCHotHashTag_Click" CommandArgument='<%# Eval("HashTagName") %>'></asp:LinkButton>
+                                                        </li>
+                                                    </ItemTemplate>
+                                                </asp:Repeater>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+
+            <!--footer-->
+            <footer class="d-none">
+                <div class="container-fluid footer-upper">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="images/cropped-230225_logo.webp" style="width: 90%" />
+                            </div>
+                            <div class="col-md-3">
+                                <h5>總部<small class="ml-2">Location</small></h5>
+                                <div class="contact-item">
+                                    <i class="fas fa-phone-volume pr-2"></i><a href="tel:03-339-0276">(03) 339-0276</a>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt pr-2"></i><a href="https://goo.gl/maps/Rv8FXYcc3nyhg3S87" target="_blank">桃園市桃園區中山東路29號13樓</a><br>
+                                    <small>​13F., No.29, Zhongshan E. Rd.,<br>
+                                        Taoyuan Dist., Taoyuan City 330,<br>
+                                        Taiwan (R.O.C.)</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>使命<small class="ml-2">Mission Statement</small></h5>
+                                <p class="mb-0">
+                                    啟發內在至善本質
+					<br>
+                                    圓滿生命進化地球
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <h5>社群媒體<small class="ml-2">Social Media</small></h5>
+                                <ul class="social-media">
+                                    <li class="solcial-media-item">
+                                        <a class="fab fa-facebook-f" href="https://zh-tw.facebook.com/pages/category/Nonprofit-Organization/%E5%92%8C%E6%B0%A3%E5%A4%A7%E6%84%9B%E6%96%87%E6%95%99%E5%9F%BA%E9%87%91%E6%9C%83-167141589977665/" target="_blank" title="和氣大愛臉書專頁"></a>
+                                    </li>
+                                    <li class="solcial-media-item">
+                                        <a class="fab fa-youtube" href="https://www.youtube.com/user/hochiuniversallove/featured" target="_blank" title="和氣大愛youtube頻道"></a>
+                                    </li>
+                                </ul>
+
+                                <h5>聯絡我們<small class="ml-2">Contact Us</small></h5>
+                                <ul class="social-media">
+                                    <li class="solcial-media-item">
+                                        <a class="fas fa-envelope" href="mailto:spiritual_life@hochi.org.tw" title="電子郵件"></a>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid footer-copyright">
+                    <div class="container">
+                        和氣大愛版權所有 © 
+                        <script>document.write(new Date().getFullYear());</script>
+                    </div>
+                </div>
+            </footer>
+            <!--footer-->
+
+        </div>
+
+        <a href="#" id="back-to-top" title="回頂端" class="text-center"><i class="fas fa-chevron-up"></i></a>
+
+
+
+        <!--進階搜尋Modal-->
+        <div id="search" class="modal fade hochi-modal" role="dialog" aria-labelledby="Edit" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <!-- Modal START-->
+            <div class="modal-dialog" role="document" style="max-width: 75%;">
+                <div class="modal-content" style="width: 100%;">
+                    <div class="modal-header pt-2 pb-2" style="background: #a281d4">
+                        <h5 class="modal-title font-weight-bold mb-0" id="exampleModalLongTitle">進階搜尋條件</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" style="width: 100%; padding: 10px">
+
+                        <asp:Panel ID="Job" runat="server">
+                            <div class="p-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row align-items-center">
+                                            <label class="control-label text-right col-md-2 text-mobile-left">關鍵字</label>
+                                            <div class="col-md-10">
+                                                <asp:TextBox ID="TB_SAKeyWord" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row align-items-center">
+                                            <label class="control-label text-right col-md-2 text-mobile-left">全站搜尋範圍</label>
+                                            <div class="col-md-10">
+                                                <asp:CheckBoxList ID="CBL_SAllRange" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow" CssClass="cbarea">
+                                                    <asp:ListItem Value="1">討論區名稱</asp:ListItem>
+                                                    <asp:ListItem Value="2">課程名稱</asp:ListItem>
+                                                    <asp:ListItem Value="3">主題名稱</asp:ListItem>
+                                                    <asp:ListItem Value="4">發表主題內容</asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row align-items-center">
+                                            <label class="control-label text-right col-md-2 text-mobile-left">HashTag標籤</label>
+                                            <div class="col-md-10">
+                                                <asp:SqlDataSource ID="SDS_SHHashTag" runat="server" ConnectionString="<%$ConnectionStrings:HochiSystemConnection%>" ProviderName="System.Data.SqlClient" SelectCommand="SELECT value FROM HSCTopic CROSS APPLY Split(HHashTag, ',') WHERE value<>'' AND HStatus=1 GROUP BY value"></asp:SqlDataSource>
+                                                <asp:ListBox ID="LBox_SHHashTag" runat="server" class="form-control  select2-multiple" name="state" SelectionMode="Multiple" Width="100%" DataSourceID="SDS_SHHashTag" DataTextField="value" DataValueField="value" AppendDataBoundItems="true">
+                                                    <asp:ListItem Value="">請選擇(可多選)</asp:ListItem>
+                                                </asp:ListBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row align-items-center">
+                                            <label class="control-label text-right col-md-2 text-mobile-left">發表人</label>
+                                            <div class="col-md-10">
+                                                <asp:TextBox ID="TB_SHCreate" runat="server" CssClass="form-control" AutoComplete="Off"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row align-items-center">
+                                            <label class="control-label text-right col-md-2 text-mobile-left">發表日期區間</label>
+                                            <div class="col-md-10">
+                                                <asp:TextBox ID="TB_SHCreateDT" runat="server" CssClass="form-control daterange" AutoComplete="Off"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </asp:Panel>
+
+
+
+
+
+                        <div class="modal-footer text-center">
+                            <asp:Button ID="Btn_Search" runat="server" class="button button-purple" Text="搜尋" OnClick="Btn_Search_Click" />
+                            <asp:Button ID="Btn_SearchCancel" runat="server" class="button button-gray" Text="取消" OnClick="Btn_SearchCancel_Click" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <%--  <div class="sidearea p-2">--%>
+
+        <!--手機版MENU-->
+        <div class="mobilemenu collapse navbar-collapse" id="Div_MobileMenu" runat="server">
+            <div class="mobile-menu-content">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+
+                    <a class="navbar-brand phone-brand" href="HSCIndex.aspx">
+                        <img src="/images/icon.png" alt="大愛光老師專欄"><%--<span class="font-weight-bold text-danger">測試區</span>--%>
+                    </a>
+
+                    <asp:LinkButton ID="LBtn_CloseMobilemenu" runat="server" CssClass="btn-closemenu" OnClick="LBtn_CloseMobilemenu_Click">
+                        <span class="ti-close"></span>
+                    </asp:LinkButton>
+                </div>
+
+
+                <div class="sidearea p-2">
+                    <h2 class="headtitle hottag all mt-0"><span class="ti-pin-alt mr-1"></span>我的最愛</h2>
+
+                    <div class="defaultLeftMenu">
+                        <div class="defaultLeftList">
+                            <div class="defaultLeftContent">
+
+                                <asp:Repeater ID="Repeater2" runat="server" DataSourceID="SDS_HSCFClassFavorite" OnItemDataBound="Rpt_HSCFClassFavorite_ItemDataBound">
+                                    <ItemTemplate>
+                                        <div class="panel-heading">
+                                            <asp:LinkButton ID="LBtn_HSCFClassFavoriteName" runat="server" CssClass="text-dark" CommandArgument='<%# Eval("HSCForumClassID") %>' OnClick="LBtn_HSCFClassFavoriteName_Click">
+                                                <asp:Literal ID="Literal1" runat="server" Text='<%# Eval("HSCFCName") %>'></asp:Literal>
+                                            </asp:LinkButton>
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                                <div class="panel-heading">
+                                    <a href="HSCGRecord.aspx" target="_self" class="text-dark">我的成長紀錄</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                <h2 class="headtitle hottag all mt-0 pl-2">
+                    <asp:LinkButton ID="LBtn_MobileIndex" runat="server" OnClick="LBtn_BackIndex_Click"> <span class="ti-home mr-1"></span></asp:LinkButton>
+                    所有討論區</h2>
+                <div class="defaultLeftMenu">
+                    <div class="defaultLeftList">
+                        <div class="defaultLeftContent">
+
+                            <asp:Repeater ID="Repeater1" runat="server" OnItemDataBound="Rpt_HSCForumClassSearch_ItemDataBound" DataSourceID="SDS_HSCForumClassSearch">
+                                <ItemTemplate>
+                                    <asp:Label ID="LB_HID" runat="server" Text='<%# Eval("HID") %>' Visible="false"></asp:Label>
+                                    <!-- 利用data-target指定要折叠的分组列表 -->
+                                    <div class="panel-heading" id="collapseListGroupHeading_<%# Eval("HID") %>" data-toggle="collapse"
+                                        data-target="#collapseListGroup_<%# Eval("HID") %>" role="tab">
+                                        <h5 class="text-left listtitle d-flex justify-content-between align-items-center">
+
+                                            <asp:Label ID="LB_HSCFCNameMaster" runat="server" CssClass="d-inline-block" Text='<%# Eval("HSCFCName") %>'></asp:Label>
+                                            &nbsp;
+   
+                                                    <asp:Label ID="LB_MasterNum" runat="server" class="notify-label" Text="" Visible="false"></asp:Label>
+                                            <%-- <span class="notify-label"></span>--%>
+                                            <span id="arrowicon" runat="server" class="fa fa-chevron-down  down d-inline-block" style="margin-left: 20%;"></span>
+                                        </h5>
+                                    </div>
+                                    <!-- .panel-collapse和.collapse标明折叠元素 .in表示要显示出来 -->
+
+                                    <div id="collapseListGroup_<%# Eval("HID") %>" class="panel-collapse collapse in" role="tabpanel"
+                                        aria-labelledby="collapseListGroupHeading_<%# Eval("HID") %>">
+                                        <ul class="text-left solutionList">
+                                            <asp:SqlDataSource ID="SDS_HSCForumClassBSearch" runat="server" ConnectionString="<%$ ConnectionStrings:HochiSystemConnection %>" SelectCommand="" ProviderName="System.Data.SqlClient"></asp:SqlDataSource>
+                                            <asp:Repeater ID="Rpt_HSCForumClassBSearch" runat="server" OnItemDataBound="Rpt_HSCForumClassBSearch_ItemDataBound" DataSourceID="SDS_HSCForumClassBSearch">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="LB_HID" runat="server" Text='<%# Eval("HID") %>' Visible="false"></asp:Label>
+                                                    <li role="presentation">
+                                                        <asp:LinkButton ID="LBtn_HSCForumClassB" runat="server" CommandArgument='<%# Eval("HID") %>' OnClick="LBtn_HSCForumClassB_Click">
+                                                            <asp:Label ID="LB_HSCForumClassB" runat="server" Text='<%# Eval("HSCFCName") %>'></asp:Label>
+                                                            <asp:Label ID="LB_HSCForumClassBNum" runat="server" class="notify-label ml-2" Text="" Visible="false"></asp:Label></span>
+                                                        </asp:LinkButton>
+                                                    </li>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                        </ul>
+                                    </div>
+
+                                </ItemTemplate>
+                            </asp:Repeater>
+
+                            <div class="panel-heading">
+                                <a href="HSCGRecordForum.aspx" class="text-dark">
+                                    <h5 class="text-left">成長紀錄
+                                    </h5>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <%--</div>--%>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/js/popper.js"></script>
+        <script src="/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+        <script src="/fonts/fontawesome-5.12.0/js/fontawesome.min.js"></script>
+        <script src="/fonts/fontawesome-5.12.0/js/brands.min.js"></script>
+        <!--Select2-->
+        <script src="/js/select2/js/select2.min.js"></script>
+        <!--sticky sidebar-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-sidebar/3.3.1/sticky-sidebar.min.js" integrity="sha512-iVhJqV0j477IrAkkzsn/tVJWXYsEqAj4PSS7AG+z1F7eD6uLKQxYBg09x13viaJ1Z5yYhlpyx0zLAUUErdHM6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script src="/js/moment.min.js"></script>
+        <script src="js/bootstrap-datepicker.js"></script>
+        <script src="/js/daterangepicker.js"></script>
+
+        <script src="/js/datatables.min.js"></script>
+        <script src="/js/custom.js"></script>
+        <script src="js/sccustom.js"></script>
+
+        <script src="js/bootstrap-tourist.js"></script>
+        <script src="ckeditor/ckeditor.js"></script>
+        <script>
+            CKEDITOR.replace('ctl00_ContentPlaceHolder1_CKE_HContent', {
+                extraPlugins: 'colorbutton',
+                toolbar: [
+                    { name: 'links', items: ['Link', 'Unlink'] },
+                    { name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'Smiley'] },
+                    { name: 'document', items: ['Source', '-'] },
+                    '/',
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat'] },
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-'] },
+                    { name: 'styles', items: ['Styles', 'Format', 'FontSize'] },
+                    { name: 'colors', items: ['TextColor', 'BGColor'] }
+                ]
+            });
+        </script>
+        <!-- back to top start -->
+        <script>
+            if ($('#back-to-top').length) {
+                var scrollTrigger = 100, // px
+                    backToTop = function () {
+                        var scrollTop = $(window).scrollTop();
+                        if (scrollTop > scrollTrigger) {
+                            $('#back-to-top').addClass('show');
+                        } else {
+                            $('#back-to-top').removeClass('show');
+                        }
+                    };
+                backToTop();
+                $(window).on('scroll', function () {
+                    backToTop();
+                });
+                $('#back-to-top').on('click', function (e) {
+                    e.preventDefault();
+                    $('html,body').animate({
+                        scrollTop: 0
+                    }, 700);
+                });
+
+
+                $(".js-example-basic-single").select2();
+                $('.select2-multiple').select2();
+
+                $('.navbarmenu-toggler').click(function (e) {
+                    console.log('ttttt');
+                    if ($('#Div_Left').hide()) {
+                        $('#Div_Left').show();
+                    }
+                });
+
+
+                //避免內容點擊而影響父元素關閉
+                $(document).ready(function () {
+                    $('.nav-tabs .nav-link').on('click', function (e) {
+                        e.stopPropagation(); // 阻止事件冒泡
+                    });
+                });
+
+                //var sidebar = new StickySidebar('#sidebar', {
+                //    containerSelector: '#menu',
+                //    innerWrapperSelector: '.sidebar__inner',
+                //    topSpacing: 20,
+                //    bottomSpacing: 20
+                //});
+            }
+
+            // Date Picker
+            $(function () {
+                $(".daterange").daterangepicker({
+                    opens: 'right',
+                    //autoApply: true,
+                    autoUpdateInput: false,
+                    locale: {
+                        cancelLabel: 'Clear',
+                        format: 'YYYY/MM/DD'
+                    }
+                });
+
+                $(".daterange").on('apply.daterangepicker', function (ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
+                });
+
+                $(".daterange").on('cancel.daterangepicker', function (ev, picker) {
+                    $(this).val('');
+                });
+            });
+
+        </script>
+        <!-- back to top end -->
+        <script>
+            //new DataTable('#example');
+
+            $('#example').DataTable({
+                language: {
+                    "lengthMenu": "每頁顯示 _MENU_ 筆資料",
+                    "sProcessing": "處理中...",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "目前有 _MAX_ 筆資料",
+                    "sInfoEmpty": "目前共有 0 筆紀錄",
+                    "sInfoFiltered": " ",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜尋:",
+                    "sUrl": "",
+                    "sEmptyTable": "尚未有資料紀錄存在",
+                    "sLoadingRecords": "載入資料中...",
+                    "sInfoThousands": ",",
+                    "oPaginate": {
+                        "sFirst": "首頁",
+                        "sPrevious": "上一頁",
+                        "sNext": "下一頁",
+                        "sLast": "末頁"
+                    },
+                    "order": [[0, "desc"]],
+                    "oAria": {
+                        "sSortAscending": ": 以升序排列此列",
+                        "sSortDescending": ": 以降序排列此列"
+                    }
+                },
+            })
+
+        </script>
+
+
+        <script>
+            function startTour() {
+                if (window.matchMedia("(max-width: 768px)").matches) {
+                    // 手機版導覽設定
+                    introJs().setOptions({
+                        steps: [
+                            { intro: "歡迎來到大愛光老師專欄導覽！" },
+                            {
+                                element: document.querySelector('#tour3'),
+                                intro: '快速導覽與連結：包含網站導覽、經典版、EDU課程報名、小鈴鐺通知、使用者個人頁面與登出。',
+                                position: 'bottom'
+                            },
+                            {
+                                element: document.querySelector("#mobilesearch"),
+                                intro: "全站關鍵字快速搜尋功能<br>輸入的關鍵字會查詢是否存在討論區名稱、主題名稱、主題內容或發表主題者",
+                                position: 'bottom'
+                            },
+                            {
+                                element: document.querySelector("#mobilemenu"),
+                                intro: "所有討論區分類與我的最愛",
+                                position: 'bottom'
+                            }
+                            // …其他手機版步驟
+                        ]
+                    }).start();
+                } else {
+                    // 電腦版導覽設定
+                    introJs().setOptions({
+                        steps: [
+                            { intro: "歡迎來到大愛光老師專欄導覽！" },
+                            {
+                                element: document.querySelector('#tour1'),
+                                intro: '全站關鍵字快速搜尋功能<br>輸入的關鍵字會查詢是否存在討論區名稱、主題名稱、主題內容或發表主題者',
+                                position: 'bottom'
+                            },
+                            {
+                                element: document.querySelector('#tour2'),
+                                intro: '進階與快速搜尋功能<br>1. 點進階搜尋獲得更多搜尋條件；<br>2. 點最新主題快速找今天的內容；<br>3. 點熱門主題搜尋近7天內，回應數最多的前15筆主題。',
+                                position: 'bottom'
+                            },
+                            {
+                                element: document.querySelector('#tour3'),
+                                intro: '快速導覽與連結：包含網站導覽、經典版、EDU課程報名、小鈴鐺通知、使用者個人頁面與登出等功能。',
+                                position: 'bottom'
+                            },
+                            {
+                                element: document.querySelector('#tour4'),
+                                intro: '我的最愛：自動加入報名課程的討論區，並提供我的成長紀錄功能。',
+                                position: 'bottom'
+                            },
+                            {
+                                element: document.querySelector('#menu'),
+                                intro: '所有討論區：顯示所有討論區分類，方便快速找到對應的討論區。',
+                                position: 'bottom'
+                            },
+                            {
+                                element: document.querySelector('#tour5'),
+                                intro: '熱門標籤：點選標籤即可快速搜尋相關主題，展示前20名最常使用的標籤。',
+                                position: 'bottom'
+                            }
+                        ],
+                        showStepNumbers: false,
+                        exitOnOverlayClick: false,
+                        nextLabel: '下一步',
+                        prevLabel: '上一步',
+                        skipLabel: 'X',
+                        doneLabel: '完成'
+                    }).start();
+                }
+            };
+
+
+
+            // 如果沒有記錄過導覽已顯示，就自動啟動一次
+            if (!localStorage.getItem("introShown")) {
+
+                startTour();
+            }
+            // 記錄導覽已顯示過
+            localStorage.setItem("introShown", "true");
+
+
+
+            // 當使用者點擊按鈕時，再次顯示導覽
+            document.getElementById("startTourBtn").addEventListener("click", function (e) {
+                // 防止表單提交導致頁面刷新
+                e.preventDefault();
+
+                startTour();
+            });
+        </script>
+
+
+    </form>
+</body>
+</html>

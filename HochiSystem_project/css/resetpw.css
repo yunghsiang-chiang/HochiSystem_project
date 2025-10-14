@@ -1,0 +1,12 @@
+﻿.card {
+	border: unset !important;
+	margin-bottom: 10px;
+}
+
+.resetbtn {
+	background-color: #afc710 !important;
+	color: white;
+	border: none;
+}
+
+

@@ -1,0 +1,99 @@
+﻿
+.sortable-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+	.sortable-list.collapsible {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.3s ease-out;
+	}
+
+	.sortable-list.expanded {
+		max-height: auto; /* 可自行調整數值以適合內容高度 */
+		height:auto;
+		transition: max-height 0.3s ease-in;
+	}
+
+/*
+  每個 .sortable-item 預設使用 block 讓「標題區(item-header)」與
+  「子清單(.sortable-list)」上下排列
+*/
+.sortable-item {
+	display: block;
+	margin: 6px 0;
+	background-color: #f8f9fa;
+	border: 1px solid #ccc;
+}
+
+/* 
+  item-header: 放置拖曳手把、toggle-btn、標題、啟用/停用按鈕等 
+  改用 flex 排版，讓左邊(拖曳 + toggle + 文字)和右邊(啟用/停用)分開
+*/
+.item-header {
+	display: flex;
+	align-items: center;
+	padding: 5px;
+}
+
+/*
+  拖曳手把 (☰)
+*/
+.drag-handle {
+	padding: 5px 8px;
+	margin-right: 10px;
+	background-color: #808080;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: grab;
+	border-radius: 3px;
+}
+
+/*
+  content：左邊( toggle-btn + 文字 ) + 右邊(啟用/停用)
+  justify-content: space-between -> 兩側分散
+  flex-grow:1 可以把中間空間撐開
+*/
+.content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-grow: 1;
+}
+
+/* 
+   左邊：toggle-btn + 文字 
+   可以再用一個 wrapper 來並排放 toggle-btn 和文字
+*/
+.content-left {
+	display: flex;
+	align-items: center;
+}
+
+/* toggle-btn (＋/－) */
+.toggle-btn {
+	padding: 0px 8px 5px;
+	margin-right: 10px; /* 與文字之間的間距 */
+	/*background-color: #a2a2a2;*/
+	color: #000;
+	font-size: 1.2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	border-radius: 3px;
+	font-weight: bold;
+}
+
+/* 啟用/停用按鈕間距 */
+.btn {
+	margin-left: 10px;
+}
+
+.sortable-item > .sortable-list {
+	margin-left: 40px;
+}

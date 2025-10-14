@@ -1,0 +1,132 @@
+﻿/*分頁*/
+.text-right{
+	text-align:right;
+}
+
+.news-grid {
+    position: relative;
+    /*padding: 100px 0px;*/
+}
+
+.news-btn {
+    display: flex;
+    justify-content: flex-end;
+    padding-left: 0;
+    list-style: none;
+}
+
+
+    .news-btn li {
+        display: list-item;
+        text-align: -webkit-match-parent;
+        margin: 0;
+    }
+
+        .news-btn li:first-child {
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .news-btn li:last-child {
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+       
+
+.news-btn li a {
+    position: relative;
+    font-size: 15px;
+    font-family: 'Open Sans',sans-serif;
+    color: #7ca4dd !important;
+    background: #fff;
+    line-height: 1;
+    text-align: center;
+    border: 1px solid #e5e5e5;
+    display: inline-block;
+    transition: all 500ms ease;
+    padding: 0.5rem 0.7rem;
+}
+
+            .news-btn li a:hover,
+            .news-btn li.active a {
+                background-color: #7ca4dd;
+                border:1px solid #5c8ed4;
+                color: #fff !important;
+                transition: all 500ms ease;
+            }
+
+                .news-btn li.active a:focus {
+                    background-color: #7ca4dd;
+                    border: 1px solid #5c8ed4;
+                    color: #fff !important;
+                }
+
+                .single-item {
+                    margin-bottom: 29px;
+                }
+
+
+    /*----------------------英文分頁-----------------------*/
+.enlist {
+    display: flex;
+    justify-content:flex-start;
+    padding-left: 0;
+    list-style: none;
+}
+
+
+.enlist li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    margin: 0;
+}
+
+	.enlist li a {
+		position: relative;
+		font-size: 15px;
+		font-family: 'Open Sans',sans-serif;
+		color: #a2a2a2 !important;
+		background: #fff;
+		line-height: 1;
+		text-align: center;
+		border: 1px solid #e5e5e5;
+		display: inline-block;
+		transition: all 500ms ease;
+		padding: 0.5rem 0.7rem;
+	}
+
+		.enlist li a:hover,
+		.enlist li.active a {
+			background-color: #c1c1c1;
+			border: 1px solid #c1c1c1;
+			color: #fff !important;
+			transition: all 500ms ease;
+		}
+
+            .enlist li.active a:focus {
+                background-color: #23a095;
+                border: 1px solid #23a095;
+                color: #fff !important;
+            }
+
+.single-item {
+    margin-bottom: 29px;
+}
+
+/*--------手機版-------*/
+@media (max-width:767.98px){
+    .news-btn {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+    }
+
+        .news-btn li a {
+            font-size: 13px;
+            padding: 0.5rem;
+        }
+
+}
+

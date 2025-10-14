@@ -1,0 +1,720 @@
+﻿.all, .hottag {
+	font-size: 1rem;
+}
+
+/*header {
+	height: 68px;
+}*/
+/*@media (max-width: 650px) {
+	@media (max-width: 414px) {
+		main.container-fluid {
+			margin-top: 13% !important;
+		}
+	}
+}
+
+@media (max-width: 380px) {
+	.header {
+		margin-top: -9px;
+	}
+}*/
+
+
+#back-to-top {
+	width: 32px;
+	height: 32px;
+	bottom: 15px;
+	right: 5px;
+}
+
+	#back-to-top i {
+		font-size: 1rem;
+	}
+
+
+.modal-footer {
+	justify-content: center;
+}
+
+@media (min-width: 993px) {
+	.btn_inner {
+		width: 85% !important;
+	}
+}
+
+.spinner {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 3px solid #ccc;
+	border-top: 3px solid #7e4bc2;
+	border-radius: 50%;
+	animation: spin 0.6s linear infinite;
+	vertical-align: middle;
+	margin-right: 8px;
+	margin-bottom: 5px;
+}
+
+#loading {
+	display: block;
+	text-align: center;
+	margin-bottom: 50px;
+	color: #895197;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+
+#twopart .middlepart {
+	margin-left: 15%;
+}
+
+canvas {
+	width: 100% !important;
+}
+
+
+.hochi-modal .modal-header {
+	background: #896ee2;
+	border-radius: 0;
+}
+
+@media (max-width:767px) {
+	#twopart .middlepart {
+		margin-left: 0 !important;
+	}
+}
+
+
+/* 全局背景與字體 */
+body {
+	background: #f0f2f5;
+}
+
+.middlepart {
+	/* max-width: 680px;*/
+	margin: 0 auto;
+	padding: 16px;
+}
+
+/* Facebook 風格卡片 */
+.fb-card {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0,0,0,.06);
+	padding: 12px 16px;
+	margin-bottom: 12px;
+}
+
+	.fb-card + .fb-card {
+		margin-top: 12px
+	}
+
+/* Composer（發文框） */
+.composer {
+	display: flex;
+	gap: 12px;
+	align-items: center
+}
+
+	.composer .avatar {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		object-fit: cover
+	}
+
+	.composer .composer-input {
+		background: #f0f2f5;
+		border-radius: 999px;
+		border: none;
+		padding: 12px 16px;
+		width: 100%;
+		cursor: text;
+		color: #65676b;
+	}
+
+		.composer .composer-input:focus {
+			outline: none
+		}
+
+/* 貼文卡片：header */
+.post-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between
+}
+
+.post-meta {
+	display: flex;
+	gap: 12px;
+	align-items: center
+}
+
+.post-avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover
+}
+
+.post-author {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.2
+}
+
+	.post-author .name {
+		font-weight: 600
+	}
+
+.time {
+	text-align: left;
+}
+
+.post-author .time {
+	font-size: 12px;
+	color: #65676b;
+	margin-top: 10px !important;
+}
+
+.btn-kebab {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	color: #65676b;
+}
+
+	.btn-kebab:hover {
+		background: #f0f2f5
+	}
+
+
+/* 外層：讓按鈕能絕對定位在textarea之上 */
+.tagbox {
+	position: relative;
+}
+
+/* 調整textarea右側內距，避免被按鈕蓋到 */
+.tag-input {
+	padding-right: 48px; /* 依按鈕寬度微調 */
+	min-height: 72px; /* 視覺比例好看一點 */
+	resize: vertical; /* 需要可拉高就保留 */
+	line-height: 1.5;
+}
+
+/* 送出按鈕：視覺上在輸入框右下角 */
+.send-btn {
+	position: absolute;
+	right: 8px;
+	bottom: 8px;
+	width: 36px;
+	height: 36px;
+	border-radius: 9999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	border: 0;
+	outline: none;
+	z-index: 2; /* 確保在textarea上層 */
+	background: #f0f0f0; /* 與你現有主色系一致 */
+	color: #fff;
+	cursor: pointer;
+}
+
+.tag-btn {
+	color: #666666;
+}
+
+.send-btn:hover,
+.send-btn:focus {
+	filter: brightness(1.05);
+}
+
+.send-btn .fa {
+	pointer-events: none;
+}
+/* 避免icon阻擋點擊 */
+
+
+
+/* 三點選單 */
+.edit_area {
+	position: absolute;
+	right: 8px;
+	top: 40px;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 8px 24px rgba(0,0,0,.12);
+	padding: 6px 0;
+	min-width: 180px;
+	z-index: 20;
+	display: none;
+}
+
+	.edit_area ul {
+		list-style: none;
+		margin: 0;
+		padding: 0
+	}
+
+	.edit_area li a, .edit_area li > span, .edit_area li > button, .edit_area li > .aspNetDisabled {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		width: 100%;
+		padding: 10px 12px;
+		color: #111;
+		text-decoration: none;
+		border: 0;
+		background: transparent;
+	}
+
+	.edit_area li:hover {
+		background: #f0f2f5
+	}
+
+/* 內文 */
+.post-content {
+	margin-top: 20px;
+	font-size: 15px;
+	color: #111;
+	white-space: normal;
+	font-weight: normal;
+}
+
+.text-clamp {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 5;
+	overflow: hidden;
+}
+
+.see-more {
+	color: #896ee2 !important;
+	font-size: 14px;
+	cursor: pointer;
+	display: inline-block;
+	margin-top: 6px
+}
+
+	.see-more:hover {
+		text-decoration: underline
+	}
+
+/* 圖片 */
+.post-image {
+	margin-top: 8px;
+	border-radius: 10px;
+	max-height: 520px;
+	object-fit: cover;
+	width: 100%;
+}
+
+/* 動作列 */
+.post-actions {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 8px;
+	border-top: 1px solid #e4e6eb;
+	border-bottom: 1px solid #e4e6eb;
+	padding: 4px 0
+}
+
+.post-action-btn {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	justify-content: start;
+	width: 100%;
+	padding: 5px 8px;
+	border-radius: 8px;
+	border: none;
+	background: #f7f7f7;
+	color: #65676b;
+	cursor: pointer;
+}
+
+	.post-action-btn:hover {
+		background: #f0f2f5
+	}
+
+
+.responsive-box {
+	display: flex;
+	flex-direction: row;
+}
+
+/* 桌機版 (>=768px) 左右顯示 */
+.post-left {
+	flex: 0 0 70%;
+	max-width: 70%;
+	padding-right: 10px;
+	border-right: 1px solid #ccc;
+}
+
+.post-right {
+	flex: 0 0 30%;
+	max-width: 30%;
+	padding-left: 10px;
+}
+
+	.post-right .right-title {
+		font-weight: bold;
+		margin-bottom: 6px;
+	}
+
+/* 手機版 (<768px) 改成上下 */
+@media (max-width: 767px) {
+	.responsive-box {
+		flex-direction: column;
+	}
+
+	.post-left {
+		max-width: 100%;
+		flex: 100%;
+		padding-right: 0;
+		border-right: none;
+		border-bottom: 1px solid #ccc; /* 改成上下分隔線 */
+		margin-bottom: 10px;
+	}
+
+	.post-right {
+		max-width: 100%;
+		flex: 100%;
+		padding-left: 0;
+	}
+}
+
+/* 留言區 */
+.comments {
+	padding-top: 8px
+}
+
+.comment-input {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin-top: 8px
+}
+
+	.comment-input .avatar {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		object-fit: cover
+	}
+
+	.comment-input .input {
+		background: #f0f2f5;
+		border-radius: 20px;
+		border: none;
+		padding: 10px 12px;
+		width: 100%;
+	}
+
+		.comment-input .input:focus {
+			outline: none
+		}
+
+
+.comment-row {
+	display: flex;
+	align-items: center;
+}
+
+.input {
+	flex: 1;
+	padding: 6px 10px;
+	border: 1px solid #ccc;
+	border-radius: 20px;
+}
+
+.send-btn {
+	margin-left: 8px;
+	color: #7e4bc2;
+	font-size: 18px;
+}
+
+/* Spinner 與 Loading */
+.spinner {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 3px solid #ccc;
+	border-top: 3px solid #7e4bc2;
+	border-radius: 50%;
+	animation: spin .6s linear infinite;
+	vertical-align: middle;
+	margin-right: 8px;
+	margin-bottom: 5px;
+}
+
+#loading {
+	text-align: center;
+	margin: 16px 0;
+	color: #895197
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg)
+	}
+}
+
+/* RWD */
+canvas {
+	width: 100% !important
+}
+
+@media (max-width:767px) {
+	.middlepart {
+		padding: 8px
+	}
+}
+
+
+/*留言樣式*/
+/* 留言列（升級：emoji + 送出） */
+/* 讓 emoji panel 的定位基準落在留言盒 */
+.comment-box {
+	flex: 1;
+	position: relative;
+}
+/* ★ 新增 position:relative */
+.comments {
+	overflow: visible;
+	/*background: #f7f7f7;*/
+	padding: 10px;
+}
+/* 避免被父層裁切 */
+
+/* emoji 面板：固定寬度，放在輸入列下方，預設靠右或靠左會由 JS 決定 */
+.emoji-panel {
+	display: none;
+	position: absolute;
+	z-index: 9999; /* ★ 提高層級 */
+	top: calc(100% + 8px); /* 先設在輸入框下方 */
+	left: auto;
+	right: 0; /* 預設靠右，JS 會視情況改為靠左 */
+	width: 260px;
+	max-width: 260px; /* ★ 固定面板寬度，避免溢出 */
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgba(0,0,0,.12);
+	padding: 8px;
+}
+
+/* emoji 格狀排列：手機時自動縮欄位數 */
+.emoji-grid {
+	display: grid;
+	grid-template-columns: repeat(8,1fr);
+	gap: 6px;
+	font-size: 20px;
+	line-height: 1
+}
+
+@media (max-width:480px) {
+	.emoji-grid {
+		grid-template-columns: repeat(6,1fr);
+	}
+}
+
+/* 輸入列微調：避免表情按鈕把高度撐太高 */
+.comment-row {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	background: #f7f7f7;
+	border-radius: 20px;
+	padding: 6px 8px
+}
+
+	.comment-row .input {
+		flex: 1;
+		border: none;
+		background: #f7f7f7;
+		padding: 6px 8px;
+		min-height: 24px
+	}
+
+		.comment-row .input:focus {
+			outline: none
+		}
+
+.emoji-btn {
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	border: none;
+	background: transparent;
+	cursor: pointer
+}
+
+	.emoji-btn:hover {
+		background: #e7e9ed
+	}
+
+
+/* 單則留言 */
+.comment-item {
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
+	margin-top: 8px
+}
+
+	.comment-item .avatar {
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		object-fit: cover
+	}
+
+.comment-bubble {
+	background: #f0f2f5;
+	/*background: #fff;*/
+	border-radius: 16px;
+	padding: 8px 12px;
+	max-width: 100%;
+}
+
+.comment-author {
+	font-weight: 600;
+	font-size: 13px;
+	display: block;
+	margin-bottom: 2px
+}
+
+.comment-text {
+	font-size: 14px;
+	white-space: normal;
+	word-wrap: break-word;
+	font-weight: normal;
+}
+
+.comment-meta {
+	font-size: 12px;
+	color: #65676b;
+	margin-left: 5px;
+	margin-top: 2px
+}
+
+.addbtn {
+	padding: 3px 5px;
+	font-size: 0.85rem;
+}
+
+.tagarea {
+	max-width: 50%;
+	text-align: left;
+	padding: 5px 10px 5px 8px;
+	color: #895197;
+	font-weight: bold;
+	font-size:1rem;
+	
+}
+
+.tagmessage {
+	width: 100%;
+}
+
+.taginfo {
+	font-size: 0.8rem;
+	color:#5687c3;
+}
+
+
+/* === Mobile：法意涵「作者+時間」一行，「編輯/刪除」下一行 === */
+@media (max-width: 768px) {
+	.tagarea {
+		max-width: 100%;
+	}
+
+
+	/* 整個 meta 區塊改為上下兩行排列 */
+	.tag-list .comment-item .comment-meta {
+		display: flex !important;
+		flex-direction: column !important; /* 直向排列 */
+		align-items: flex-start !important; /* 靠左 */
+		justify-content: flex-start !important; /* 取消左右撐滿 */
+		gap: 4px;
+		font-size:0.8rem;
+	}
+		/* 第一行：作者＋時間維持同一行，過長以…省略 */
+		.tag-list .comment-item .comment-meta > div:first-child {
+			width: 100%;
+			min-width: 0;
+			white-space: nowrap;
+		}
+		/* 第二行：編輯／刪除 置左成一行，不再與上行左右對齊 */
+		.tag-list .comment-item .comment-meta > div:last-child {
+			white-space: nowrap;
+			margin-top: 2px;
+		}
+
+	.tag-list .taginfo {
+		white-space: nowrap;
+	}
+	/* 避免「編輯」「刪除」自己再斷行 */
+}
+
+
+.tag-list .comment-bubble {
+	background: #fff;
+	padding: 0px 5px;
+}
+
+
+.tag-list .comment-author {
+	font-weight: 400;
+	font-size: 0.75rem;
+	display: inline-block;
+	line-height: 0;
+}
+
+.tag-list .comment-meta{
+	width:45%;
+}
+
+
+
+.tag-list .comment-text {
+	font-weight: 500;
+	color: #895197;
+	font-size: 0.95rem;
+	line-height: normal;
+}
+
+.posttag {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #ccc;
+}
+
+
+.btn-outline-purple {
+	border: 1px solid #9468e2;
+	background: #fff;
+	color: #9468e2;
+}
+
+	.btn-outline-purple:hover {
+		color: #653789;
+	}
+
+.taginfo:hover {
+	color: #0c42b1;
+}

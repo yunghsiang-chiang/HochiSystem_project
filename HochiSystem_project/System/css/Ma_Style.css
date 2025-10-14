@@ -1,0 +1,511 @@
+﻿* {
+    font-family: "open sans","微軟正黑體", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size:14px;
+}
+
+@media(max-width:797.98px){
+	* {
+		font-size: 12px;
+	}
+}
+
+body:before, body:after{
+	display: none !important;
+}
+
+.menu {
+    font-size: 17px;
+}
+
+.labeltext {
+    font-size: 16px;
+    /* color: #1d1d1d; */
+    /* font-weight: 400; */
+}
+
+.navbar {
+	padding: 0.1rem 1rem;
+}
+
+.navbar-fixed-top {
+	top: 0 !important;
+	background-color: #590375 !important;
+}
+
+.navbar-fixed-top .navbar-brand{
+	padding:0 !important;
+}
+
+.navbar-fixed-top .navbar-right{
+	width:unset !important;
+}
+
+.navbar-nav .icon-menu{
+	vertical-align: unset !important;
+}
+
+.navbar-nav .icon-menu i {
+    color: #fff !important;
+}
+
+.navbar-nav .icon-menu .notification-dot{
+	background-color: #ffd616 !important;
+}
+
+.block-header{
+	margin-bottom:10px;
+	margin-top:5px;
+}
+
+.main_menu {
+	top: 55px !important;
+}
+
+.card-body{
+	padding:10px 1.25rem;
+}
+
+.icon-menu:before {
+	display: none !important;
+}
+
+.badge{
+	font-weight: 550 !important;
+}
+
+.badge-warning {
+    /*background: transparent;*/
+    border-color: #e78a00 !important;
+    color: #e78a00 !important;
+}
+
+.dropify-wrapper {
+	width:80%;
+	height:80px !important;
+}
+
+.myadmin-dd .dd-list .dd-item .dd-handle{
+	background: #f7f7f7;
+	border-radius: 3px;
+	border: 1px solid #efefef;
+	color: #000;
+    font-size: 14px;
+    font-family: "open sans",微軟正黑體, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.myadmin-dd{
+	padding:20px;
+}
+
+.dd-handle a{
+	color: #000;
+}
+
+.navbar-nav ul.notifications{
+	background: #fff !important;
+}
+
+.identify_content{
+	display: block;
+	width: 100%;
+	white-space: normal;
+    text-align: justify;
+    word-wrap:break-word;
+    margin-bottom:0;
+}
+
+/*多選DDL樣式 START*/
+#dropdown1_wrapper{
+    width:100%;
+}
+
+.e-ddl .e-in-wrap, .e-ddl-popup, .e-ddl .e-options, .e-ddl-popup .e-atc.e-search{
+    border-color:#ecf0f4 !important;
+
+}
+
+.e-ddl .e-select:hover, .e-ddl.e-rtl .e-select:hover{
+    border-color: #ececec !important;
+}
+
+.e-ddl .e-select, .e-ddl.e-rtl .e-select, .e-ddl .e-disable.e-select:hover{
+    background: #ffffff !important;
+}
+
+/*多選DDL樣式 END*/
+
+/*login page*/
+.vertical-align-wrap{
+	display: block !important;
+}
+
+.auth-box{
+	margin-top:85px !important;
+}
+
+.auth-box .top img{
+	width:60% !important;
+}
+
+.auth-main::before{
+	background: #002b6a !important;
+}
+
+.auth-main:after{
+	background: url(../images/bg/cover.jpg) no-repeat center center !important;
+    background-size: cover !important;
+}
+/*login page  END*/
+
+
+/*專案編輯頁*/
+.hideinfo{
+	padding: 20px;
+    background-color: #ffffff1a;
+    border: 1px solid #cdd0d2;
+    border-top: unset;
+    border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.moreinfo{
+	background-color: #ececec !important;
+	border-radius: 0.25rem 0.25rem 0 0;
+}
+
+
+.class_pagination{
+	justify-content: flex-start;
+}
+
+.class_pagination .page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #02a999;
+    border-color: #02a999;
+}
+
+.class_pagination>li>a:hover, .class_pagination>li>span:hover, .class_pagination>li>a:focus, .class_pagination>li>span:focus {
+    background-color: #02a999;
+    border-color: #02a999;
+    color: #fff;
+}
+
+.class_pagination>li>a, .class_pagination>li>span {
+    color: #02a999;
+}
+
+.Question_modal{
+	max-width:70%;
+}
+
+.table_question{
+	margin-bottom:0;
+}
+
+.table_question td, .table_question th {
+	padding: 0.2rem;
+	border: unset;
+}
+
+.main_menu{
+	width:100%;
+	position:unset !important;
+}
+
+.page-wrapper{
+	margin-top:85px !important;
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+	.page-wrapper {
+		padding-top: 8px;
+		margin-top: 40px !important;
+	}
+}
+
+
+@media (max-width:767px){
+	.page-wrapper {
+		/*margin-top:90px !important;*/
+		margin-top: 40px !important;
+		padding-top: 15px;
+	}
+
+	.col-md-4, .col-md-2, .col-md-3, .col-md-6 {
+		margin-bottom: 5px;
+	}
+
+}
+
+
+
+.nav-item {
+	text-align: left !important;
+}
+
+.aspNetDisabled {
+	width: 100%;
+	padding: 3px;
+	height: 38px;
+}
+
+.excel_outer input[type="image"] {
+	display: inline-block;
+	height: 23px;
+	margin-left: 7px;
+}
+
+.select2-container--default .select2-selection--single{
+	height:38px;
+}
+
+	.select2-container--default .select2-selection--single .select2-selection__rendered{
+		line-height:38px;
+	}
+
+::placeholder { /* CSS 3 標準 */
+	color:#a8a8a8 !important;
+}
+
+::-webkit-input-placeholder { /* Chrome, Safari */
+	color: #a8a8a8 !important;
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+	color: #a8a8a8 !important;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+	color: #a8a8a8 !important;
+	opacity: 1;
+}
+
+@media screen and (max-width: 1600px) and (min-width: 1359px) {
+	.container {
+		max-width: 1460px !important;
+	}
+}
+
+
+.card .body {
+	padding:10px  5px;
+}
+
+.ui-timepicker-container{
+	z-index:1050 !important;
+}
+
+.ui-timepicker{
+	text-align:center;
+}
+
+.navbar-brand img {
+	width: 43% !important;
+}
+
+@media (max-width:768px){
+	.navbar-brand {
+		width:50%;
+	}
+
+	.navbar-brand img {
+		width: 66% !important;
+	}
+
+	.dropdown_scroll{
+		height:170px;
+		overflow-y:scroll !important;
+	}
+}
+
+/*課後教材*/
+.upload {
+	width: 100%;
+	overflow: hidden;
+
+}
+
+.btn_upload{
+	display:block;
+}
+
+.btn-outline-gray {
+	color: #626262;
+	border-color: #626262;
+}
+
+	.btn-outline-gray:hover {
+		color: #fff;
+		border-color: #626262;
+		background: #626262;
+	}
+
+.btn-outline-primary {
+	color: #f3752c;
+	border-color: #f3752c;
+}
+
+.disabledate{
+	background-color:#fff !important;
+}
+
+.name_body p{
+	margin-bottom:5px;
+}
+
+.col-form-label {
+	padding-bottom:0;
+}
+
+table thead th{
+	font-weight:bold !important;
+}
+
+
+.excel_img {
+	display: inline-block;
+	width:28px;
+	height:auto !important;
+}
+
+.text-overflow {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp:3;
+	box-sizing: border-box;
+}
+
+.SumoSelect > .optWrapper > .options li.opt label, .SumoSelect > .CaptionCont, .SumoSelect .select-all > label {
+	display: block !important;
+	word-break: break-word !important;
+	text-overflow: initial;
+	white-space: normal;
+}
+
+input[type=checkbox], input[type=radio] {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+
+.btn-gray {
+	background: #cfcfcf;
+	color: #808080;
+}
+
+.badge-gray {
+	color:#a2a2a2;
+}
+
+.table {
+	/*white-space: normal !important;*/
+	word-break: break-word !important;
+}
+
+	.table-bordered, .table-bordered td, .table-bordered th, .table.table-bordered thead th {
+		border: 1px solid #cdcdcd;
+	}
+
+/*.main_menu .navbar .navbar-nav .dropdown-menu {
+	padding: 8px 12px;
+}*/
+
+.dropdown-menu.order-menu {
+	min-width: 230px !important;
+}
+
+form label {
+	font-weight: normal;
+}
+
+.btn-purple-active {
+	background-color: #593dae;
+}
+
+.navbar-nav .icon-menu {
+	padding: 5px 10px;
+}
+
+
+@media(max-width:992px){
+	.main_menu .navbar .navbar-nav .dropdown-menu li a{
+		font-size:12px;
+	}
+
+	.btn {
+		font-size: 12px;
+	}
+
+	.block-header h2 {
+		font-size: 18px;
+	}
+}
+
+
+.table td span {
+	display:block;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	white-space: normal;
+}
+
+@media (max-width:768.98px){
+	.table td span {
+		display: inline-block;
+		word-break: break-word;
+		overflow-wrap:unset ;
+		white-space: nowrap;
+	}
+
+	.form-group .control-label{
+		text-align:left !important;
+	}
+}
+
+
+.table td .badge span, .table td .badge {
+	display: inline;
+	word-break: keep-all;
+	overflow-wrap: normal;
+	white-space: nowrap;
+}
+
+.main_menu .navbar .navbar-nav .dropdown-menu {
+	padding: 5px 8px;
+	max-height: 600px;
+	overflow-y: auto;
+	overflow-x: unset;
+	min-width: 230px;
+}
+
+.main_menu .navbar .navbar-nav .nav-item .nav-link{
+	margin-right:5px;
+}
+
+
+.lineclamp {
+	overflow: hidden;
+	white-space: nowrap !important;
+	text-overflow: ellipsis;
+	width: 350px;
+}
+
+@media (max-width:768.98px){
+	.table select.form-control{
+		min-width:90px;
+	}
+
+	.table input[type="text"].form-control {
+		min-width: 90px;
+	}
+	.lineclamp {
+		width: 250px;
+	}
+
+	
+}
+
