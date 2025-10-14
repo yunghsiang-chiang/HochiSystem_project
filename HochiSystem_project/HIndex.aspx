@@ -3,7 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <style>
-
         #section5 ul li a {
             position: unset;
         }
@@ -280,15 +279,13 @@
 
 
     <asp:LinkButton ID="LBtn_FastRollcall" runat="server" class="side-btn-wrap side-rollcall" OnClick="LBtn_FastRollcall_Click"><%-- data-toggle="modal" data-target="#Div_Rollcall"--%>
-          <div class="side-btn-box">
-      <span class="side-btn-text">快速報到</span>
-      <span class="side-btn-icon">
-          <span class="side-btn-book side-icon"></span>
-      </span>
-  </div>
-
+        <div class="side-btn-box">
+            <span class="side-btn-text">快速報到</span>
+            <span class="side-btn-icon">
+            <span class="side-btn-book side-icon"></span>
+            </span>
+        </div>
     </asp:LinkButton>
-
 
     <!--快速報到 Modal-->
     <div class="modal fade hochi-modal" id="Div_Rollcall" tabindex="-1" role="dialog" aria-labelledby="Div_Rollcall" aria-hidden="true" data-backdrop="static">
@@ -374,6 +371,44 @@
             </div>
         </div>
     </div>
+
+    <asp:Panel ID="pnQuickLead" runat="server" Visible="false">
+        <a id="lnkQuickLead" runat="server"
+            class="quick-lead-fab"
+            href="#"
+            title="新朋友 CRM 接引紀錄">
+            <i class="fas fa-user-plus" aria-hidden="true"></i>
+        </a>
+    </asp:Panel>
+
+    <style>
+        /* 浮動按鈕：不受父層版型影響 */
+        .quick-lead-fab {
+            position: fixed;
+            right: 16px;
+            bottom: 20px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none !important;
+            background: #28a745; /* 綠色 */
+            color: #fff !important; /* 白字 */
+            box-shadow: 0 6px 16px rgba(0,0,0,.25);
+            z-index: 1050; /* 蓋過大多數元件 */
+        }
+
+            .quick-lead-fab:hover {
+                filter: brightness(1.06);
+            }
+
+            .quick-lead-fab i {
+                font-size: 22px;
+                line-height: 1;
+            }
+    </style>
 
 
     <script src="js/jquery-3.4.1.min.js"></script>
@@ -586,19 +621,19 @@
         }
     </script>
 
-        <script>
-            function NoticeCCPeriod(gDItemID) {
+    <script>
+        function NoticeCCPeriod(gDItemID) {
 
-                let text = "此課程僅開放使用信用卡授權付款方式，系統將為您導向信用卡授權申請頁面~\n若同意請按【確定】。\n若想下次再進行申請請按【取消】。";
-                if (confirm(text) == true) {
-                    window.location = "HMember_CCPeriod.aspx?Apply=1&DItem=" + gDItemID;
-                    return;
-                } else {
-                    //javascript: history.back(-1);
-                    return;
-                }
+            let text = "此課程僅開放使用信用卡授權付款方式，系統將為您導向信用卡授權申請頁面~\n若同意請按【確定】。\n若想下次再進行申請請按【取消】。";
+            if (confirm(text) == true) {
+                window.location = "HMember_CCPeriod.aspx?Apply=1&DItem=" + gDItemID;
+                return;
+            } else {
+                //javascript: history.back(-1);
+                return;
             }
-        </script>
+        }
+    </script>
 
 </asp:Content>
 

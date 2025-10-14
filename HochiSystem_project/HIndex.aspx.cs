@@ -195,6 +195,28 @@ public partial class HIndex : System.Web.UI.Page
 
             }
 
+            // 取登入者 HID（有登入時 Master 已設定好）
+            var hidLabel = (Label)Master.FindControl("LB_HUserHID");
+            var myHid = hidLabel != null ? hidLabel.Text : null;
+            // 瀏覽器 Console
+            ScriptManager.RegisterStartupScript(
+                this, GetType(), "logMyHid",
+                "console.log('myHid(client)=', " +
+                (myHid == null ? "null" : "'" + HttpUtility.JavaScriptStringEncode(myHid) + "'")
+                + ");",
+                true
+            );
+            if (!string.IsNullOrEmpty(myHid))
+            {
+                pnQuickLead.Visible = true;
+                var url = ResolveUrl("~/NewFriend.aspx?myHid=" + Server.UrlEncode(myHid) + "&channel=" + Server.UrlEncode("活動"));
+                // 因為是 <a runat="server">，用 Attributes 設定 href
+                lnkQuickLead.Attributes["href"] = url;
+            }
+            else
+            {
+                pnQuickLead.Visible = false; // 沒登入就不顯示
+            }
         }
 
         #endregion
