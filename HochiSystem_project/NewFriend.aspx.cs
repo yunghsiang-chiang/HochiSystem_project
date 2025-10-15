@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Web.Services;
 using System.Web.Script.Services;
-using System.Configuration;
+using System.Web.Services;
 
 public partial class CRM_NewFriend : System.Web.UI.Page
 {
@@ -72,9 +73,10 @@ public partial class CRM_NewFriend : System.Web.UI.Page
     #endregion
 
     [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static SearchResult SearchPerson(string mobile, string name)
+    public static SearchPayload SearchPerson(string mobile, string name)
     {
-        var res = new SearchResult { Found = false, Data = null };
+        var payload = new SearchPayload { Found = false, Multiple = false, Data = null, Candidates = new List<PersonCandidate>() };
+
         var connStr = ConfigurationManager.ConnectionStrings["HochiReports"].ConnectionString;
         string m = NormalizeMobile(mobile);
         string n = NormalizeName(name);
@@ -83,53 +85,76 @@ public partial class CRM_NewFriend : System.Web.UI.Page
         using (var cmd = cn.CreateCommand())
         {
             cn.Open();
+
             if (!string.IsNullOrEmpty(m))
             {
-                cmd.CommandText = @"SELECT TOP 1 * FROM dbo.NewFriend WHERE MobilePhone = @m AND IsMergedIntoId IS NULL";
+                // 先用手機精準
+                cmd.CommandText = @"
+SELECT TOP 20 source_type, newfriend_id, edu_hid, full_name, mobile_norm, City, District, Address
+FROM dbo.v_crm_people_search
+WHERE mobile_norm = @m
+ORDER BY CASE WHEN source_type='NF' THEN 0 ELSE 1 END, full_name";
                 cmd.Parameters.AddWithValue("@m", m);
-                using (var r = cmd.ExecuteReader())
-                {
-                    if (r.Read())
-                    {
-                        res.Found = true;
-                        res.Data = new
-                        {
-                            NewFriendId = (int)r["NewFriendId"],
-                            FullName = r["FullName"] as string,
-                            MobilePhone = r["MobilePhone"] as string,
-                            City = r["City"] as string,
-                            District = r["District"] as string,
-                            Address = r["Address"] as string
-                        };
-                        return res;
-                    }
-                }
-                cmd.Parameters.Clear();
             }
-            if (!string.IsNullOrEmpty(n))
+            else if (!string.IsNullOrEmpty(n))
             {
-                cmd.CommandText = @"SELECT TOP 1 * FROM dbo.NewFriend WHERE FullNameNorm = @n AND IsMergedIntoId IS NULL ORDER BY CreatedAt DESC";
-                cmd.Parameters.AddWithValue("@n", n);
-                using (var r = cmd.ExecuteReader())
+                // 再用姓名（模糊 -> 前後含，視需求可改為等於或前綴）
+                cmd.CommandText = @"
+SELECT TOP 20 source_type, newfriend_id, edu_hid, full_name, mobile_norm, City, District, Address
+FROM dbo.v_crm_people_search
+WHERE full_name LIKE @n
+ORDER BY CASE WHEN source_type='NF' THEN 0 ELSE 1 END, full_name";
+                cmd.Parameters.AddWithValue("@n", "%" + n + "%");
+            }
+            else
+            {
+                return payload; // 沒條件就不查
+            }
+
+            using (var r = cmd.ExecuteReader())
+            {
+                while (r.Read())
                 {
-                    if (r.Read())
+                    payload.Candidates.Add(new PersonCandidate
                     {
-                        res.Found = true;
-                        res.Data = new
-                        {
-                            NewFriendId = (int)r["NewFriendId"],
-                            FullName = r["FullName"] as string,
-                            MobilePhone = r["MobilePhone"] as string,
-                            City = r["City"] as string,
-                            District = r["District"] as string,
-                            Address = r["Address"] as string
-                        };
-                    }
+                        SourceType = r["source_type"] as string,
+                        NewFriendId = r["newfriend_id"] as int?,
+                        EduHID = r["edu_hid"] as int?,
+                        FullName = r["full_name"] as string,
+                        MobilePhone = r["mobile_norm"] as string,
+                        City = r["City"] as string,
+                        District = r["District"] as string,
+                        Address = r["Address"] as string
+                    });
                 }
             }
         }
-        return res;
+
+        payload.Found = payload.Candidates.Count > 0;
+        if (!payload.Found) return payload;
+
+        if (payload.Candidates.Count == 1)
+        {
+            payload.Multiple = false;
+            var c = payload.Candidates[0];
+            // 舊版 Data 結構（表單可直接塞）
+            payload.Data = new
+            {
+                NewFriendId = c.NewFriendId ?? 0,
+                FullName = c.FullName,
+                MobilePhone = c.MobilePhone,
+                City = c.City,
+                District = c.District,
+                Address = c.Address
+            };
+        }
+        else
+        {
+            payload.Multiple = true;
+        }
+        return payload;
     }
+
 
     [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static ApiResult CreateNewFriend(NFDto dto, int createdByHID, string channel)
@@ -348,6 +373,26 @@ VALUES(@nid,@hid,@m,@i,@na,@nad,@memo)";
                 }
             }
         }
+    }
+
+    public class PersonCandidate
+    {
+        public string SourceType; // "NF" or "EDU"
+        public int? NewFriendId;
+        public int? EduHID;
+        public string FullName;
+        public string MobilePhone;
+        public string City;
+        public string District;
+        public string Address;
+    }
+
+    public class SearchPayload
+    {
+        public bool Found;          // 是否至少一筆
+        public bool Multiple;       // 是否多筆
+        public object Data;         // 若唯一，沿用你舊結構（表單可直接塞）
+        public List<PersonCandidate> Candidates; // 多筆時用這個清單
     }
 
 }

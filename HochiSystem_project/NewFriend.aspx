@@ -98,7 +98,7 @@
             <div id="interactionHint" class="mt-2 small text-muted"></div>
         </div>
 
-        <asp:HiddenField ID="hidNewFriendId" runat="server" />
+        <input type="hidden" id="hidNewFriendId" value="0" />
         <asp:HiddenField ID="hidMyHID" runat="server" />
         <asp:HiddenField ID="hidChannel" runat="server" />
 
@@ -115,41 +115,132 @@
             </div>
         </div>
 
+        <div class="modal fade" id="doneModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">已儲存</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        接觸紀錄已儲存，你想要？
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" id="btnKeepSame">再寫一筆（同一人）</button>
+                        <button type="button" class="btn btn-outline-primary" id="btnBackSearch">回到搜尋</button>
+                        <button type="button" class="btn btn-success" id="btnNextPerson">新增下一位</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </form>
 
 
 
 
     <script>
-        // 取同修 HID（你現有：cookie person_id）
         $(function () {
-            // 這裡示範從伺服器注入；也可由 cookie 注入
-            if (!$('#<%=hidMyHID.ClientID%>').val()) {
-                // 預留防呆
+            const myHID = parseInt($('#<%=hidMyHID.ClientID%>').val() || '0', 10);
+            const channel = $('#<%=hidChannel.ClientID%>').val() || '道場';
+
+            // 若未帶 myHid，直接鎖住互動與儲存，給提示
+            if (!myHID) {
+                $('#btnSaveInteraction').prop('disabled', true);
+                $('#searchHint').html('<span class="hint">未取得同修識別 (myHid)。請使用專屬QR或在網址後加上 ?myHid=你的HID</span>');
             }
-            // 來源渠道（可從 URL ?channel=活動）
-            const url = new URL(window.location.href);
-            $('#<%=hidChannel.ClientID%>').val(url.searchParams.get('channel') || '道場');
+
+            // 讓你能在 UI 角落顯示目前同修身分與來源（可選）
+            console.log('ACTIVE ContactHID=', myHID, 'channel=', channel);
         });
+
+        function getValSafe(sel) {
+            const $el = $(sel);
+            const v = $el.length ? $el.val() : '';
+            return (v ?? '').toString().trim();
+        }
+
 
         $('#btnSearch').on('click', function () {
             const mobile = $('#txtMobile').val().trim();
             const name = $('#txtName').val().trim();
             $('#searchHint').text('查詢中...');
             PageMethods.SearchPerson(mobile, name, function (res) {
-                if (res.Found) {
-                    $('#searchHint').html('<span class="hint">找到相符資料，請確認/補充後可新增接觸紀錄。</span>');
-                    renderCard(res.Data, true);
-                    $('#<%=hidNewFriendId.ClientID%>').val(res.Data.NewFriendId);
-                    $('#interactionArea').show();
-                } else {
+                if (!res.Found) {
                     $('#searchHint').html('<span class="hint">找不到，請建立新朋友（至少填姓名與手機）。</span>');
                     renderCard({ FullName: name, MobilePhone: mobile }, false);
                     $('#interactionArea').hide();
+                    $('#cardArea').show();
+                    return;
+                }
+
+                if (res.Multiple) {
+                    // 多筆候選：渲染清單
+                    renderCandidates(res.Candidates);
+                    $('#interactionArea').hide();
+                } else {
+                    // 唯一 → 直接渲染卡片
+                    $('#searchHint').html('<span class="hint">找到相符資料，請確認/補充後可新增接觸紀錄。</span>');
+                    renderCard(res.Data, !!res.Data.NewFriendId && res.Data.NewFriendId > 0);
+                    if (res.Data.NewFriendId && res.Data.NewFriendId > 0) {
+                        $('#hidNewFriendId').val(res.Data.NewFriendId);
+                        initInteraction(); // ★ 初始化互動區
+                        $('#interactionArea').show();
+                    } else {
+                        $('#interactionArea').hide();
+                    }
                 }
                 $('#cardArea').show();
             }, function (err) { $('#searchHint').text('查詢失敗'); });
+
         });
+
+        function renderCandidates(list) {
+            var html = '<div class="mb-2 small text-muted">找到多筆，請選擇一位：</div>';
+            html += '<div class="list-group">';
+            list.forEach(function (c, idx) {
+                var badge = c.SourceType === 'NF' ?
+                    '<span class="badge badge-success ml-2">CRM</span>' :
+                    '<span class="badge badge-info ml-2">EDU</span>';
+                var sub = (c.City || c.District || c.Address) ?
+                    [c.City || '', c.District || '', c.Address || ''].join(' ') : '';
+                html += '<a href="#" class="list-group-item list-group-item-action" data-idx="' + idx + '">';
+                html += '<div class="d-flex w-100 justify-content-between">';
+                html += '<h6 class="mb-1">' + (c.FullName || '(未名)') + badge + '</h6>';
+                html += '<small>' + (c.MobilePhone || '') + '</small>';
+                html += '</div>';
+                if (sub) html += '<small class="text-muted">' + sub + '</small>';
+                html += '</a>';
+            });
+            html += '</div>';
+
+            $('#cardArea').html(html);
+
+            $('#cardArea .list-group-item').off().on('click', function (e) {
+                e.preventDefault();
+                var c = list[parseInt($(this).data('idx'), 10)];
+                var isNF = c.SourceType === 'NF' && c.NewFriendId && c.NewFriendId > 0;
+
+                // 轉成 renderCard 需要的資料
+                var data = {
+                    NewFriendId: isNF ? c.NewFriendId : 0,
+                    FullName: c.FullName,
+                    MobilePhone: c.MobilePhone,
+                    City: c.City, District: c.District, Address: c.Address
+                };
+                renderCard(data, isNF);
+
+                if (isNF) {
+                    $('#hidNewFriendId').val(c.NewFriendId);
+                    initInteraction(); // ★ 初始化
+                    $('#interactionArea').show();
+                } else {
+                    // 只從 EDU 帶資料 → 先建立再談互動
+                    $('#interactionArea').hide();
+                    $('#searchHint').html('<span class="hint">此人尚未進 CRM，請按「建立新朋友」後再新增接觸。</span>');
+                }
+            });
+        }
 
         function renderCard(d, isExisting) {
             var html = '';
@@ -176,7 +267,7 @@
                 const channel = $('#<%=hidChannel.ClientID%>').val();
                 PageMethods.CreateNewFriend(payload, parseInt(myHID || '0'), channel, function (r) {
                     if (r.Ok) {
-                        $('#<%=hidNewFriendId.ClientID%>').val(r.NewFriendId);
+                        $('#hidNewFriendId').val(r.NewFriendId);
                         $('#searchHint').html('<span class="hint">已建立，現在可新增接觸紀錄。</span>');
                         $('#interactionArea').show();
                         resetInteractionForm();
@@ -189,12 +280,71 @@
 
             $('#btnUpdateNF').off().on('click', function () {
                 const payload = collectNF();
-                const id = $('#<%=hidNewFriendId.ClientID%>').val();
+                const id = $('#hidNewFriendId').val();
                 const myHID = $('#<%=hidMyHID.ClientID%>').val();
                 PageMethods.UpdateNewFriend(parseInt(id || '0'), payload, parseInt(myHID || '0'), function (r) {
                     if (r.Ok) { alert('已更新'); } else { alert(r.Msg || '更新失敗'); }
                 }, function () { alert('更新失敗'); });
             });
+
+            gateButtonsByMyHID();
+
+        }
+
+        $('#btnSaveInteraction').off().on('click', function () {
+            try {
+                const dto = buildInteractionDto(); // ★ 先建立 dto
+                if (!dto) return;
+
+                $('#interactionHint').text('儲存中...');
+                PageMethods.AddInteraction(dto, function (r) {
+                    if (r.Ok) {
+                        $('#interactionHint').text('已儲存');
+                        $('#doneModal').modal('show');
+
+                        $('#btnKeepSame').off().on('click', function () {
+                            initInteraction(); // 清空互動區，但維持同一位
+                            $('#doneModal').modal('hide');
+                        });
+                        $('#btnBackSearch').off().on('click', function () {
+                            $('#doneModal').modal('hide');
+                            // 保留搜尋欄位、關閉互動卡
+                            $('#interactionArea').hide();
+                        });
+                        $('#btnNextPerson').off().on('click', function () {
+                            $('#doneModal').modal('hide');
+                            // 全重置
+                            $('#txtMobile').val('');
+                            $('#txtName').val('');
+                            $('#cardArea').hide().empty();
+                            $('#interactionArea').hide();
+                            $('#searchHint').text('');
+                            $('#hidNewFriendId').val('');
+                            document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            $('#txtMobile').focus();
+                        });
+
+                    } else {
+                        $('#interactionHint').text(r.Msg || '儲存失敗');
+                    }
+                }, function () { $('#interactionHint').text('儲存失敗'); });
+            } catch (e) {
+                console.warn(e);
+            }
+
+        });
+
+        function setActivePerson(p) {
+            // p: { NewFriendId, FullName, MobilePhone, City, District, Address }
+            $('#hidNewFriendId').val(p.NewFriendId || 0);
+            $('#nfName').val(p.FullName || '');
+            $('#nfMobile').val(p.MobilePhone || '');
+            $('#nfCity').val(p.City || '');
+            $('#nfDistrict').val(p.District || '');
+            $('#nfAddress').val(p.Address || '');
+            // 開啟互動區
+            $('#interactionArea').removeClass('d-none');
+            $('#btnSaveInteraction').prop('disabled', false);
         }
 
         function collectNF() {
@@ -207,61 +357,52 @@
             };
         }
 
-        $('#btnSaveInteraction').on('click', function () {
-            const id = parseInt($('#<%=hidNewFriendId.ClientID%>').val() || '0');
-            const myHID = parseInt($('#<%=hidMyHID.ClientID%>').val() || '0');
+        
 
-            if (!id) { alert('請先建立/選擇新朋友，再儲存接觸'); return; }
-            if (!myHID) { alert('未取得同修識別 myHid，請用專屬 QR 開啟本頁'); return; }
 
-            const dto = {
-                NewFriendId: id,
-                ContactHID: myHID,
-                Method: $('#selMethod').val(),
-                IntentLevel: $('#selIntent').val(),
-                NextAction: $('#txtNext').val().trim(),
-                NextActionDate: $('#txtNextDate').val(),
-                Memo: $('#txtMemo').val().trim(),
-                // 這五個是同步主檔用
-                FullName: $('#nfName').val().trim(),
-                MobilePhone: $('#nfMobile').val().trim(),
-                City: $('#nfCity').val().trim(),
-                District: $('#nfDistrict').val().trim(),
-                Address: $('#nfAddress').val().trim()
-            };
 
-            $('#interactionHint').text('儲存中...');
-            PageMethods.AddInteraction(dto, function (r) {
-                if (r.Ok) {
-                    $('#interactionHint').text('已儲存');
-                    $('#savedModal').modal('show');   // ★ 顯示成功提醒 + 下一步選項
-                } else {
-                    $('#interactionHint').text(r.Msg || '失敗');
-                }
-            }, function () { $('#interactionHint').text('失敗'); });
-
-        });
-
-        $(function () {
+        function gateButtonsByMyHID() {
             const myHID = parseInt($('#<%=hidMyHID.ClientID%>').val() || '0', 10);
-            const channel = $('#<%=hidChannel.ClientID%>').val() || '道場';
-
-            // 若未帶 myHid，直接鎖住互動與儲存，給提示
+            // 在 renderCard 完成後呼叫，統一控管
             if (!myHID) {
-                $('#btnSaveInteraction').prop('disabled', true);
-                $('#searchHint').html('<span class="hint">未取得同修識別 (myHid)。請使用專屬QR或在網址後加上 ?myHid=你的HID</span>');
+                $('#btnCreateNF, #btnUpdateNF, #btnSaveInteraction').prop('disabled', true)
+                    .attr('title', '請使用專屬QR或網址加上 ?myHid=你的HID');
             }
+        }
 
-            // 讓你能在 UI 角落顯示目前同修身分與來源（可選）
-            console.log('ACTIVE ContactHID=', myHID, 'channel=', channel);
-        });
+        function buildInteractionDto() {
+            const nid = parseInt($('#hidNewFriendId').val() || '0', 10);
+            if (!nid) { alert('請先建立/選擇新朋友'); return null; }
+
+            const contactHid = parseInt($('#<%=hidMyHID.ClientID%>').val() || '0', 10);
+
+            return {
+                NewFriendId: nid,
+                ContactHID: contactHid,
+                Method: ($('#selMethod').val() || '').trim(),
+                IntentLevel: ($('#selIntent').val() || '').trim(),
+                NextAction: ($('#txtNext').val() || '').trim(),
+                NextActionDate: ($('#txtNextDate').val() || '').trim(),
+                Memo: ($('#txtMemo').val() || '').trim(),
+                // 同步主檔用（後端已支援覆蓋更新）
+                FullName: ($.trim($('#nfName').val() || '')),
+                MobilePhone: ($('#nfMobile').val() || '').replace(/\D/g, ''),
+                City: $.trim($('#nfCity').val() || ''),
+                District: $.trim($('#nfDistrict').val() || ''),
+                Address: $.trim($('#nfAddress').val() || '')
+            };
+        }
+
+
+
+
 
         function resetForNextPerson() {
             // 清搜尋區與卡片、隱藏互動區
             $('#txtMobile, #txtName').val('');
             $('#cardArea').hide().empty();
             $('#interactionArea').hide();
-            $('#<%=hidNewFriendId.ClientID%>').val(''); // 下一位
+            $('#hidNewFriendId').val(''); // 下一位
             $('#searchHint').text('');
             // 捲回頂端，方便手機繼續掃描/輸入
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -269,6 +410,8 @@
 
         $('#btnNewInteraction').on('click', function () { $('#savedModal').modal('hide'); });
         $('#btnResetForNext').on('click', function () { $('#savedModal').modal('hide'); resetForNextPerson(); });
+
+        const dto = buildInteractionDto(); // ★ 先建立 dto
 
         PageMethods.AddInteraction(dto, function (r) {
             if (r.Ok) {
@@ -294,7 +437,7 @@
             $('#txtMobile, #txtName').val('');
             $('#cardArea').hide().empty();
             $('#interactionArea').hide();
-            $('#<%=hidNewFriendId.ClientID%>').val('');
+            $('#hidNewFriendId').val('');
             resetInteractionForm();
             $('#searchHint').text('');
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -326,6 +469,26 @@
 
         // 進頁與每次 renderCard 後都執行一次 gate
         $(function () { gateNoHid(); });
+
+        function initInteraction() {
+            $('#selMethod').val('電話');
+            $('#selIntent').val('關注');
+            $('#txtNext').val('');
+            $('#txtNextDate').val('');
+            $('#txtMemo').val('');
+            $('#interactionHint').text('');
+            // 可選：自動捲動到互動區
+            document.getElementById('interactionArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // 若你有 btnNewInteraction：加上這段
+        $('#btnNewInteraction').off().on('click', function () {
+            if (!parseInt($('#hidNewFriendId').val() || '0', 10)) {
+                alert('請先建立/選擇新朋友'); return;
+            }
+            initInteraction();
+            $('#interactionArea').show();
+        });
 
     </script>
 </body>

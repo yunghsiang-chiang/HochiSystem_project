@@ -109,6 +109,8 @@
                                                 <th style="width: 18%">帳號</th>
                                                 <!--(Email)-->
                                                 <th class="text-center" style="width: 8%">學員類別</th>
+                                                <!--(參班與否)-->
+                                                <th style="width: 10%">參班</th>
                                                 <!--(Member Type)-->
                                                 <th class="text-center" style="width: 5%">狀態</th>
                                                 <!--(Status)-->
@@ -155,6 +157,9 @@
                                                             <asp:Label ID="LB_HType" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "HMType") %>'></asp:Label>
                                                         </td>
                                                         <td>
+                                                            <asp:Label ID="LB_IsCourseBooking" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "參班") %>'></asp:Label>
+                                                        </td>
+                                                        <td>
                                                             <div class="badge badge-default" id="Activation" runat="server">
                                                                 <asp:Label ID="LB_HStatus" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "HStatus") %>'></asp:Label>
                                                             </div>
@@ -167,7 +172,7 @@
                                     <!--分頁-->
                                     <!------------------分頁功能開始------------------>
                                     <div class="box text-right">
-                                        <page:paging runat="server" id="Pg_Paging" />
+                                        <Page:Paging runat="server" ID="Pg_Paging" />
                                     </div>
                                     <!------------------分頁功能結束------------------>
                                 </div>

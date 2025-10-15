@@ -109,7 +109,7 @@ public partial class HMember_Edit : System.Web.UI.Page
                 {
                     DDL_SHArea.Enabled = true;
 
-                    SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID ORDER BY HStatus DESC,HMember.HAreaID ASC";
+                    SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType,case when HMemberID is null then '沒參班過' else '參過班' end '參班' From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID LEFT JOIN (　SELECT DISTINCT HMemberID    FROM HCourseBooking) b ON b.HMemberID = HMember.HID ORDER BY HStatus DESC,HMember.HAreaID ASC";
                     // 呼叫分頁(連結資料庫, 資料庫命令, Repeater顯示總數, 分頁頁數, 觸發搜尋, DataList控件)
                     Pg_Paging.PagingLoad("HochiSystemConnection", SDS_Member.SelectCommand, PageMax, LastPage, false, Rpt_Member);
                     ViewState["Select"] = SDS_Member.SelectCommand;
@@ -123,7 +123,7 @@ public partial class HMember_Edit : System.Web.UI.Page
                     {
                         DDL_SHArea.Enabled = true;
 
-                        SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID ORDER BY HStatus DESC,HMember.HAreaID ASC";
+                        SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType,case when HMemberID is null then '沒參班過' else '參過班' end '參班' From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID LEFT JOIN (　SELECT DISTINCT HMemberID    FROM HCourseBooking) b ON b.HMemberID = HMember.HID ORDER BY HStatus DESC,HMember.HAreaID ASC";
                         // 呼叫分頁(連結資料庫, 資料庫命令, Repeater顯示總數, 分頁頁數, 觸發搜尋, DataList控件)
                         Pg_Paging.PagingLoad("HochiSystemConnection", SDS_Member.SelectCommand, PageMax, LastPage, false, Rpt_Member);
                         ViewState["Select"] = SDS_Member.SelectCommand;
@@ -145,7 +145,7 @@ public partial class HMember_Edit : System.Web.UI.Page
                         DDL_SHArea.Enabled = false;
 
                         //220822--同區屬才能看
-                        SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID WHERE HMember.HAreaID='" + LB_HArea.Text + "'  ORDER BY HStatus DESC,HMember.HAreaID ASC";
+                        SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType,case when HMemberID is null then '沒參班過' else '參過班' end '參班' From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID LEFT JOIN (　SELECT DISTINCT HMemberID    FROM HCourseBooking) b ON b.HMemberID = HMember.HID WHERE HMember.HAreaID='" + LB_HArea.Text + "'  ORDER BY HStatus DESC,HMember.HAreaID ASC";
                         // 呼叫分頁(連結資料庫, 資料庫命令, Repeater顯示總數, 分頁頁數, 觸發搜尋, DataList控件)
                         Pg_Paging.PagingLoad("HochiSystemConnection", SDS_Member.SelectCommand, PageMax, LastPage, false, Rpt_Member);
                         ViewState["Select"] = SDS_Member.SelectCommand;
@@ -1584,7 +1584,7 @@ public partial class HMember_Edit : System.Web.UI.Page
     #region 搜尋
     protected void LBtn_Search_Click(object sender, EventArgs e)
     {
-        string SearchSQL = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID ";
+        string SearchSQL = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType,case when HMemberID is null then '沒參班過' else '參過班' end '參班' From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID LEFT JOIN (　SELECT DISTINCT HMemberID    FROM HCourseBooking) b ON b.HMemberID = HMember.HID ";
 
         //搜尋條件
         StringBuilder sql = new StringBuilder(SearchSQL);
@@ -1645,6 +1645,8 @@ public partial class HMember_Edit : System.Web.UI.Page
         }
 
         SDS_Member.SelectCommand = sql.ToString() + Order;
+
+        Console.Write("<script>console.log('"+ sql.ToString() + Order + "')</script>");
         // 呼叫分頁(連結資料庫, 資料庫命令, Repeater顯示總數, 分頁頁數, 觸發搜尋, DataList控件)
         Pg_Paging.PagingLoad("HochiSystemConnection", SDS_Member.SelectCommand, PageMax, LastPage, true, Rpt_Member);
         ViewState["Select"] = SDS_Member.SelectCommand;
@@ -1675,7 +1677,7 @@ public partial class HMember_Edit : System.Web.UI.Page
                 DDL_SHArea.Enabled = true;
                 LB_HArea.Text = "0";
 
-                SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID ORDER BY HStatus DESC,HMember.HAreaID ASC";
+                SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType,case when HMemberID is null then '沒參班過' else '參過班' end '參班' From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID LEFT JOIN (　SELECT DISTINCT HMemberID    FROM HCourseBooking) b ON b.HMemberID = HMember.HID ORDER BY HStatus DESC,HMember.HAreaID ASC";
                 // 呼叫分頁(連結資料庫, 資料庫命令, Repeater顯示總數, 分頁頁數, 觸發搜尋, DataList控件)
                 Pg_Paging.PagingLoad("HochiSystemConnection", SDS_Member.SelectCommand, PageMax, LastPage, false, Rpt_Member);
                 ViewState["Select"] = SDS_Member.SelectCommand;
@@ -1690,7 +1692,7 @@ public partial class HMember_Edit : System.Web.UI.Page
                     DDL_SHArea.Enabled = true;
                     DDL_SHArea.SelectedValue = "0";
 
-                    SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID ORDER BY HStatus DESC,HMember.HAreaID ASC";
+                    SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType,case when HMemberID is null then '沒參班過' else '參過班' end '參班' From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID LEFT JOIN (　SELECT DISTINCT HMemberID    FROM HCourseBooking) b ON b.HMemberID = HMember.HID ORDER BY HStatus DESC,HMember.HAreaID ASC";
                     // 呼叫分頁(連結資料庫, 資料庫命令, Repeater顯示總數, 分頁頁數, 觸發搜尋, DataList控件)
                     Pg_Paging.PagingLoad("HochiSystemConnection", SDS_Member.SelectCommand, PageMax, LastPage, false, Rpt_Member);
                     ViewState["Select"] = SDS_Member.SelectCommand;
@@ -1711,7 +1713,7 @@ public partial class HMember_Edit : System.Web.UI.Page
                     QueryHAreaID.Close();
 
                     //220822--同區屬才能看
-                    SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID WHERE HMember.HAreaID='" + LB_HArea.Text + "'  ORDER BY HStatus DESC,HMember.HAreaID ASC";
+                    SDS_Member.SelectCommand = "SELECT HMember.HID, HSeries,HAccount, HUserName,HSystemID, HAreaID,HTeamID, HTeamType, HPeriod, HEmail, HPhone, HSystemName, HArea, HMember.HStatus,HType, HMType.HMType,case when HMemberID is null then '沒參班過' else '參過班' end '參班' From HMember Left JOIN HSystem ON HMember.HSystemID = HSystem.HID  Left JOIN HArea ON HMember.HAreaID = HArea.HID LEFT JOIN HMType ON HMember.HType = HMType.HID LEFT JOIN (　SELECT DISTINCT HMemberID    FROM HCourseBooking) b ON b.HMemberID = HMember.HID WHERE HMember.HAreaID='" + LB_HArea.Text + "'  ORDER BY HStatus DESC,HMember.HAreaID ASC";
                     // 呼叫分頁(連結資料庫, 資料庫命令, Repeater顯示總數, 分頁頁數, 觸發搜尋, DataList控件)
                     Pg_Paging.PagingLoad("HochiSystemConnection", SDS_Member.SelectCommand, PageMax, LastPage, false, Rpt_Member);
                     ViewState["Select"] = SDS_Member.SelectCommand;
