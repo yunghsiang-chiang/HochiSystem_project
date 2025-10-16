@@ -35,18 +35,34 @@ public partial class CRM_NewFriend : System.Web.UI.Page
     }
 
     #region DTO
-    public class NFDto { public string FullName; public string MobilePhone; public string City; public string District; public string Address; }
+    [Serializable]
+    public class NFDto
+    {
+        public string FullName { get; set; }
+        public string MobilePhone { get; set; }
+        public string City { get; set; }
+        public string District { get; set; }
+        public string Address { get; set; }
+    }
     public class SearchResult { public bool Found; public object Data; }
     public class ApiResult { public bool Ok; public string Msg; public int NewFriendId; }
+    [Serializable]
     public class InteractionDto
     {
-        public int NewFriendId; public int ContactHID;
-        public string Method; public string IntentLevel;
-        public string NextAction; public string NextActionDate; public string Memo;
+        public int NewFriendId { get; set; }
+        public int ContactHID { get; set; }
+        public string Method { get; set; }
+        public string IntentLevel { get; set; }
+        public string NextAction { get; set; }
+        public string NextActionDate { get; set; }
+        public string Memo { get; set; }
 
-        // 新增：把卡片上的資料也帶進來，便於同步
-        public string FullName; public string MobilePhone;
-        public string City; public string District; public string Address;
+        // 同步主檔
+        public string FullName { get; set; }
+        public string MobilePhone { get; set; }
+        public string City { get; set; }
+        public string District { get; set; }
+        public string Address { get; set; }
     }
 
     #endregion
@@ -159,6 +175,9 @@ ORDER BY CASE WHEN source_type='NF' THEN 0 ELSE 1 END, full_name";
     [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static ApiResult CreateNewFriend(NFDto dto, int createdByHID, string channel)
     {
+        if (dto == null)
+            return new ApiResult { Ok = false, Msg = "無法解析參數：請重新整理頁面後再試（AddInteraction）" };
+
         if (createdByHID <= 0)
             return new ApiResult { Ok = false, Msg = "缺少建立者 ContactHID（myHid）。請用 ?myHid= 開啟本頁" };
 
@@ -245,6 +264,9 @@ VALUES(@nid,@hid,@ch,NULL)";
     [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static ApiResult UpdateNewFriend(int id, NFDto dto, int updatedByHID)
     {
+        if (dto == null)
+            return new ApiResult { Ok = false, Msg = "無法解析參數：請重新整理頁面後再試（AddInteraction）" };
+
         var connStr = ConfigurationManager.ConnectionStrings["HochiReports"].ConnectionString;
         var name = NormalizeName(dto.FullName);
         var mobile = NormalizeMobile(dto.MobilePhone);
@@ -281,6 +303,9 @@ WHERE NewFriendId=@id AND IsMergedIntoId IS NULL;
     [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static ApiResult AddInteraction(InteractionDto dto)
     {
+        if (dto == null)
+            return new ApiResult { Ok = false, Msg = "無法解析參數：請重新整理頁面後再試（AddInteraction）" };
+
         var connStr = ConfigurationManager.ConnectionStrings["HochiReports"].ConnectionString;
         if (dto.NewFriendId <= 0)
             return new ApiResult { Ok = false, Msg = "缺少 NewFriendId：請先建立或選擇新朋友" };

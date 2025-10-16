@@ -140,6 +140,81 @@
 
 
     <script>
+        // 1) 安全取值（避免 .trim 錯誤）
+        const valOrEmpty = sel => {
+            const $el = $(sel);
+            return ($el.length ? $el.val() : '')?.toString().trim() || '';
+        };
+
+        // 2) 取得後端寫入的 ASP:HiddenField
+        //    （這兩個 *一定* 是 <asp:HiddenField>，因為後端在 Page_Load 有設定 .Value）
+        const $hidMyHID = () => $('#<%=hidMyHID.ClientID%>');
+        const $hidChannel = () => $('#<%=hidChannel.ClientID%>');
+
+        // 3) 你頁面自己放的 plain input hidden（保持現在做法即可）
+        /*
+          <input type="hidden" id="hidNewFriendId" value="0" />
+        */
+        const $hidNewFriendId = () => $('#hidNewFriendId');
+
+        // 4) 切換互動區啟用 / 停用（避免剛進頁就 alert）
+        function setInteractionEnabled(enabled) {
+            $('#btnSaveInteraction, #btnNewInteraction').prop('disabled', !enabled);
+            $('#interactionArea').toggleClass('disabled', !enabled);
+        }
+
+        // 5) 將「目前服務對象」設定為某一位（新建成功 / 搜尋唯一命中 / 候選點選 都要呼叫）
+        function setActivePerson(p) {
+            // 兼容兩種來源：Search 回傳的 Data、或我們手組的物件
+            const id = p.NewFriendId || p.newfriend_id || 0;
+            const name = p.FullName || p.full_name || '';
+            const mob = p.MobilePhone || p.mobile_norm || '';
+            const city = p.City || '';
+            const dist = p.District || '';
+            const addr = p.Address || '';
+
+            $hidNewFriendId().val(id);
+
+            // 把卡片欄位也一併填入（之後 AddInteraction 會一併同步到主檔）
+            $('#nfName').val(name);
+            $('#nfMobile').val(mob);
+            $('#nfCity').val(city);
+            $('#nfDistrict').val(dist);
+            $('#nfAddress').val(addr);
+
+            // UI 提示
+            $('#activeBadge').text(`ACTIVE（ID: ${id}）`).removeClass('d-none');
+            setInteractionEnabled(id > 0);
+        }
+
+        // 6) 建立互動 DTO（修掉 .trim 造成的錯）
+        function buildInteractionDto() {
+            const nid = parseInt($hidNewFriendId().val() || '0', 10);
+            if (!nid) throw new Error('No NewFriendId');   // 只在按「儲存接觸」時擋
+
+            return {
+                NewFriendId: nid,
+                ContactHID: parseInt($hidMyHID().val() || '0', 10),
+                Method: valOrEmpty('#selMethod'),
+                IntentLevel: valOrEmpty('#selIntent'),
+                NextAction: valOrEmpty('#txtNextAction'),
+                NextActionDate: valOrEmpty('#txtNextDate'),
+                Memo: valOrEmpty('#txtMemo'),
+
+                // 同步主檔用
+                FullName: valOrEmpty('#nfName'),
+                MobilePhone: valOrEmpty('#nfMobile'),
+                City: valOrEmpty('#nfCity'),
+                District: valOrEmpty('#nfDistrict'),
+                Address: valOrEmpty('#nfAddress')
+            };
+        }
+
+        // 7) 初始：不要 alert，只把互動區鎖起來；若 URL 有既定新朋友，可自行解鎖（選配）
+        $(function () {
+            setInteractionEnabled(false);
+        });
+
         $(function () {
             const myHID = parseInt($('#<%=hidMyHID.ClientID%>').val() || '0', 10);
             const channel = $('#<%=hidChannel.ClientID%>').val() || '道場';
@@ -261,22 +336,54 @@
             $('#cardArea').html(html);
             gateNoHid(); // ★ 讓未帶 myHid 的情況下，建立/更新按鈕一律擋住
 
-            $('#btnCreateNF').off().on('click', function () {
-                const payload = collectNF();
-                const myHID = $('#<%=hidMyHID.ClientID%>').val();
-                const channel = $('#<%=hidChannel.ClientID%>').val();
-                PageMethods.CreateNewFriend(payload, parseInt(myHID || '0'), channel, function (r) {
-                    if (r.Ok) {
-                        $('#hidNewFriendId').val(r.NewFriendId);
-                        $('#searchHint').html('<span class="hint">已建立，現在可新增接觸紀錄。</span>');
-                        $('#interactionArea').show();
-                        resetInteractionForm();
-                        document.getElementById('interactionArea').scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                        alert(r.Msg || '建立失敗');
-                    }
+            $('#btnCreateNF').on('click', function () {
+                var dto = {
+                    FullName: valOrEmpty('#nfName'),
+                    MobilePhone: valOrEmpty('#nfMobile'),
+                    City: valOrEmpty('#nfCity'),
+                    District: valOrEmpty('#nfDistrict'),
+                    Address: valOrEmpty('#nfAddress')
+                };
+                var createdBy = parseInt($hidMyHID().val() || '0', 10);
+                var channel = $hidChannel().val() || '道場';
+
+                PageMethods.CreateNewFriend(dto, createdBy, channel, function (r) {
+                    if (!r.Ok) { alert(r.Msg || '建立失敗'); return; }
+                    // 用我們現有欄位組一個物件給 setActivePerson
+                    setActivePerson({
+                        NewFriendId: r.NewFriendId,
+                        FullName: dto.FullName, MobilePhone: dto.MobilePhone,
+                        City: dto.City, District: dto.District, Address: dto.Address
+                    });
+                    $('#savedModal').modal('show');   // 友善提示
                 }, function () { alert('建立失敗'); });
             });
+
+            function doSearch() {
+                PageMethods.SearchPerson(valOrEmpty('#nfMobile'), valOrEmpty('#nfName'), function (r) {
+                    if (!r || !r.Found) { /* 顯示「查無」提示 */ return; }
+
+                    if (!r.Multiple && r.Data) {       // 唯一命中
+                        setActivePerson(r.Data);         // ★ 關鍵
+                        return;
+                    }
+
+                    // 多筆：渲染候選清單
+                    const $list = $('#candidateList').empty();
+                    r.Candidates.forEach(c => {
+                        const $li = $('<li class="list-group-item pointer">')
+                            .text(`${c.full_name || c.FullName}（${c.mobile_norm || ''}）`)
+                            .on('click', () => {
+                                setActivePerson(c);          // ★ 點選候選 → 設定 Active
+                                $('#candidateModal').modal('hide');
+                            });
+                        $list.append($li);
+                    });
+                    $('#candidateModal').modal('show');
+                }, function () { /* 查詢失敗提示 */ });
+            }
+            $('#btnSearch').on('click', doSearch);
+
 
             $('#btnUpdateNF').off().on('click', function () {
                 const payload = collectNF();
@@ -291,48 +398,29 @@
 
         }
 
-        $('#btnSaveInteraction').off().on('click', function () {
+        $('#btnSaveInteraction').on('click', function () {
+            let dto;
             try {
-                const dto = buildInteractionDto(); // ★ 先建立 dto
-                if (!dto) return;
-
-                $('#interactionHint').text('儲存中...');
-                PageMethods.AddInteraction(dto, function (r) {
-                    if (r.Ok) {
-                        $('#interactionHint').text('已儲存');
-                        $('#doneModal').modal('show');
-
-                        $('#btnKeepSame').off().on('click', function () {
-                            initInteraction(); // 清空互動區，但維持同一位
-                            $('#doneModal').modal('hide');
-                        });
-                        $('#btnBackSearch').off().on('click', function () {
-                            $('#doneModal').modal('hide');
-                            // 保留搜尋欄位、關閉互動卡
-                            $('#interactionArea').hide();
-                        });
-                        $('#btnNextPerson').off().on('click', function () {
-                            $('#doneModal').modal('hide');
-                            // 全重置
-                            $('#txtMobile').val('');
-                            $('#txtName').val('');
-                            $('#cardArea').hide().empty();
-                            $('#interactionArea').hide();
-                            $('#searchHint').text('');
-                            $('#hidNewFriendId').val('');
-                            document.body.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            $('#txtMobile').focus();
-                        });
-
-                    } else {
-                        $('#interactionHint').text(r.Msg || '儲存失敗');
-                    }
-                }, function () { $('#interactionHint').text('儲存失敗'); });
+                dto = buildInteractionDto();
             } catch (e) {
-                console.warn(e);
+                alert('請先建立/選擇新朋友');
+                return;
             }
 
+            console.log('ACTIVE ContactHID=', dto.ContactHID, ' channel=', $hidChannel().val());
+
+            PageMethods.AddInteraction(dto, function (r) {
+                if (r.Ok) {
+                    $('#interactionHint').text('已儲存');
+                    $('#savedModal').modal('show');
+                    // 清空下一步/備註（選擇性）
+                    $('#txtNextAction, #txtNextDate, #txtMemo').val('');
+                } else {
+                    alert(r.Msg || '儲存失敗');
+                }
+            }, function () { alert('儲存失敗'); });
         });
+
 
         function setActivePerson(p) {
             // p: { NewFriendId, FullName, MobilePhone, City, District, Address }
